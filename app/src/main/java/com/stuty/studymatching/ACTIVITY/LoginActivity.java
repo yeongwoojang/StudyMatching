@@ -93,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(toMainPageIntent);
-                            finish();
 
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
