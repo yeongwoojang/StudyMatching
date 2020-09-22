@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "215612232105",
+    "firebase_url": "https://studymatching-7157a.firebaseio.com",
+    "project_id": "studymatching-7157a",
+    "storage_bucket": "studymatching-7157a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215612232105:android:c2fa2554f0fb2e87a2f4b8",
+        "android_client_info": {
+          "package_name": "com.stuty.studymatching"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215612232105-2qnu22dmafstvbinqf95b2jv5a11rdg5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stuty.studymatching",
+            "certificate_hash": "9f03963a283f6c70c16e715ed013cc85b5bf3403"
+          }
+        },
+        {
+          "client_id": "215612232105-if1l6ohpmai8bn23mqv8qkqsjbm70f66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJTR9H56cI7qWs_Rtx8CtVMTfKLfL0pVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215612232105-if1l6ohpmai8bn23mqv8qkqsjbm70f66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
