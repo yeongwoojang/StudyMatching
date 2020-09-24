@@ -27,6 +27,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bm_dohyeon_ttf"
+            android:text="페북계정으로 로그인"
+            android:layout_above="@+id/facebook_sign_in_button"
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            android:layout_marginLeft="18dp"
+            ></TextView>
+        <Button
+            android:id="@+id/facebook_sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_above="@+id/google_sign_in_tv"
+            android:background="@drawable/btn_signin_facebook"
+            android:text="@string/signin_facebook"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/google_sign_in_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bm_dohyeon_ttf"
             android:text="구글계정으로 로그인"
             android:layout_above="@+id/google_sign_in_button"
             android:textColor="@color/black"

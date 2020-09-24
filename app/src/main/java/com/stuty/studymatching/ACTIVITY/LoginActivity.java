@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,12 +27,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.study.studymatching.FACEBOOK.LoginCallback;
 import com.stuty.studymatching.R;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static final int RC_SIGN_IN = 10;
 
+    /*facebook*/
+    private Button btn_facebook_login;
+    private LoginCallback mLoginCallback;
+    private CallbackManager mCallbackManager;
+
+    /*google*/
     private Context mContext = null;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -67,11 +78,16 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        mCallbackManager = CallbackManager.Factory.create();
+        mLoginCallback = new LoginCallback();
+
+        btn_facebook_login = (Button) findViewById(R.id.facebook_sign_in_button);
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">StudyMatching</string>
+    <!--페이스북 앱 키-->
+    <string name="facebook_app_id">344392990347430</string>
     <!-- Sign In -->
     <string name="email">Email</string>
     <string name="password">Password</string>
