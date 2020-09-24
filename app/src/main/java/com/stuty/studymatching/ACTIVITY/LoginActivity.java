@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,8 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private Context mContext = null;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-
-    private SignInButton googleLoginBt;
+    private Button googleLoginBt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
 
-        googleLoginBt = (SignInButton) findViewById(R.id.google_login_button);
+        googleLoginBt = (Button) findViewById(R.id.google_sign_in_button);
 
         if (mAuth.getCurrentUser() != null) {
             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
