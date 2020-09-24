@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">StudyMatching</string>
-    <string name="default_web_client_id" translatable="false">784971085945-ri0jfj338i1687ak7o4mqgv6mt4dt70l.apps.googleusercontent.com</string>
     <!-- Sign In -->
     <string name="email">Email</string>
     <string name="password">Password</string>
