@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -78,11 +79,21 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        /*페이스북*/
+
         mCallbackManager = CallbackManager.Factory.create();
         mLoginCallback = new LoginCallback();
 
-        btn_facebook_login = (Button) findViewById(R.id.facebook_sign_in_button);
-
+        btn_facebook_login = (Button)findViewById(R.id.facebook_sign_in_button);
+        btn_facebook_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager loginManager = LoginManager.getInstance();
+                loginManager.logInWithReadPermissions(LoginActivity.this,Arrays.asList("public_profile","email"));
+                loginManager.registerCallback(mCallbackManager,mLoginCallback);
+            }
+        });
     }
 
     @Override
