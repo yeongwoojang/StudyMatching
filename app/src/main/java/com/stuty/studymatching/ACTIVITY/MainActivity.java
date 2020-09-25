@@ -1,6 +1,7 @@
 package com.stuty.studymatching.ACTIVITY;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,9 +14,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.R;
@@ -29,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ImageButton menuBt;
+
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,5 +108,10 @@ public class MainActivity extends AppCompatActivity {
          else {
             super.onBackPressed();
         }
+    }
+
+    public void logout(View view) {
+        auth.signOut();
+        finish();
     }
 }

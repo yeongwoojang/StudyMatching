@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.stuty.studymatching">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="b36f12fb12ec9d4bb11c0b70eb5c7781" />
         <activity android:name=".ACTIVITY.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
