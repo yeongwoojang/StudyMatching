@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
         <View
             android:id="@+id/view_toolbar"
             android:layout_width="match_parent"
@@ -41,16 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
         </androidx.appcompat.widget.Toolbar>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="logout"
-                android:text="로그아웃" />
-
-        </LinearLayout>
     </RelativeLayout>
 
 
@@ -62,8 +53,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navi_header"
+        app:menu="@menu/navi_menu"
         >
 
     </com.google.android.material.navigation.NavigationView>
-
 </androidx.drawerlayout.widget.DrawerLayout>

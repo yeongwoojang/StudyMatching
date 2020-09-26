@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -76,13 +77,21 @@ public class MainActivity extends AppCompatActivity {
 
                 }else if(id==R.id.logout){
                     FirebaseAuth.getInstance().signOut();
-                    finish();
-
+                    UserManagement.getInstance()
+                            .requestLogout(new LogoutResponseCallback() {
+                                @Override
+                                public void onCompleteLogout() {
+                                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
 
                 return true;
             }
         });
+
     }
 
     @Override
@@ -110,10 +119,5 @@ public class MainActivity extends AppCompatActivity {
          else {
             super.onBackPressed();
         }
-    }
-
-    public void logout(View view) {
-        auth.signOut();
-        finish();
     }
 }
