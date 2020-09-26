@@ -47,5 +47,4 @@ dependencies {
 
     // 카카오 로그인
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.30.2'
-    implementation 'com.kakao.sdk:usermgmt:1.30.2'
 }

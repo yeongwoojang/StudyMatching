@@ -18,7 +18,7 @@ allprojects {
         jcenter()
 
         // 카카오 SDK 레포지토리 생성
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/'}
     }
 }
 

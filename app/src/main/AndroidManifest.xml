@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".KAKAO.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +14,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="b36f12fb12ec9d4bb11c0b70eb5c7781" />
+            android:value="@string/kakao_app_key" />
         <activity android:name=".ACTIVITY.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,5 +26,4 @@
 
         </activity>
     </application>
-
 </manifest>
