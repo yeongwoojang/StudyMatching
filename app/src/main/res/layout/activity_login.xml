@@ -34,6 +34,7 @@
             android:layout_marginLeft="18dp"
             ></TextView>
 
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/google_login_button"
             android:layout_width="match_parent"
