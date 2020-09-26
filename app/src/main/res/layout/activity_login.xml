@@ -94,7 +94,11 @@
                 android:background="@drawable/btn_signin_kakao"
                 android:textColor="@color/black">
             </Button>
-
+            <Button
+                android:id="@+id/btn_custom_login_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="카카오 로그아웃" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
