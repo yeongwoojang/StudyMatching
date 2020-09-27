@@ -45,7 +45,6 @@ import com.stuty.studymatching.ACTIVITY.RTROFIT.JoinData;
 import com.stuty.studymatching.ACTIVITY.RTROFIT.JoinResponse;
 import com.stuty.studymatching.ACTIVITY.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.ACTIVITY.RTROFIT.ServiceApi;
-import com.stuty.studymatching.KAKAO.SessionCallback;
 import com.stuty.studymatching.R;
 
 import retrofit2.Call;
@@ -63,9 +62,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button googleLoginBt;
     private Boolean isStoredUser;
 
-    private Button kakao_sign_in_button;
-    private SessionCallback sessionCallback = new SessionCallback();
-    Session session;
+    private Button kakaoLgoinBt;
+
+    private SessionCallback sessionCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,18 +100,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        kakao_sign_in_button = (Button) findViewById(R.id.kakao_sign_in_button);
-        session = Session.getCurrentSession();
-        session.addCallback(sessionCallback);
+        sessionCallback = new SessionCallback();
+        Session.getCurrentSession().addCallback(sessionCallback);
+        Session.getCurrentSession().checkAndImplicitOpen();
 
-        kakao_sign_in_button.setOnClickListener(new View.OnClickListener() {
+        kakaoLgoinBt = (Button) findViewById(R.id.kakao_sign_in_button);
+        kakaoLgoinBt.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
-                session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
+                Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
             }
         });
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,13 +125,10 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         }
-
-        // 카카오톡|스토리 간편로그인 실행 결과를 받아서 SDK로 전달
-        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+        if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
             return;
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void firebaseAuthWithGoogle(String idToken,String userName) {
@@ -191,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Session.getCurrentSession().removeCallback(sessionCallback);
-    }
+   }
 
     private class SessionCallback implements ISessionCallback {
         @Override

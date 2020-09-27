@@ -5,17 +5,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".KAKAO.GlobalApplication"
-        android:usesCleartextTraffic="true"
+        android:name=".KAKAO.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+
         <activity android:name=".ACTIVITY.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ACTIVITY.MainActivity">
-
-        </activity>
+        <activity android:name=".ACTIVITY.MainActivity" />
     </application>
+
 </manifest>
