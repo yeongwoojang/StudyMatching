@@ -29,6 +29,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
@@ -39,13 +40,7 @@ import com.stuty.studymatching.RTROFIT.CheckData;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
-<<<<<<<<< Temporary merge branch 1
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-=========
 import java.util.Arrays;
->>>>>>>>> Temporary merge branch 2
 
 public class LoginActivity extends AppCompatActivity implements SessionCallback.KakaoLoginListener {
 
@@ -59,16 +54,12 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
     private Context mContext = null;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-    private Button google_sign_in_button;
     private ServiceApi service;
     private Button google_sign_in_button,kakao_sign_in_button;
 
     private DatabaseCheck dbcheck;
     private SessionCallback sessionCallback;
     Session session;
-    private SignInButton googleLoginBt;
-
-    private Boolean isStoredUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +99,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
 
             }
         });
-
-        /*페이스북*/
-        facebook_sign_in_button = (Button)findViewById(R.id.facebook_sign_in_button);
-        mCallbackManager = CallbackManager.Factory.create();
+        //페이스북로그인 버튼클릭 이벤트
         facebook_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
