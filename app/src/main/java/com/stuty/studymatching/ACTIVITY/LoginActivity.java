@@ -31,11 +31,24 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.kakao.auth.AuthType;
+import com.kakao.auth.Session;
+import com.stuty.studymatching.KAKAO.SessionCallback;
 import com.stuty.studymatching.R;
+import com.stuty.studymatching.RTROFIT.CheckData;
+import com.stuty.studymatching.RTROFIT.CheckResponse;
+import com.stuty.studymatching.RTROFIT.JoinData;
+import com.stuty.studymatching.RTROFIT.JoinResponse;
+import com.stuty.studymatching.RTROFIT.RetrofitClient;
+import com.stuty.studymatching.RTROFIT.ServiceApi;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LoginActivity extends AppCompatActivity implements SessionCallback.KakaoLoginListener {
 
     public static final int RC_SIGN_IN = 10;
 
@@ -47,7 +60,11 @@ public class LoginActivity extends AppCompatActivity {
     private Context mContext = null;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-    private Button google_sign_in_button;
+    private ServiceApi service;
+    private Button google_sign_in_button,kakao_sign_in_button;
+
+    Session session;
+    private SessionCallback sessionCallback = new SessionCallback();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
-
+        service = RetrofitClient.getClient().create(ServiceApi.class);
         google_sign_in_button = (Button) findViewById(R.id.google_sign_in_button);
 
         if (mAuth.getCurrentUser() != null) {
@@ -80,10 +97,20 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-        /*페이스북*/
+        kakao_sign_in_button = (Button)findViewById(R.id.kakao_sign_in_button);
+        kakao_sign_in_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sessionCallback.setListner((SessionCallback.KakaoLoginListener) mContext);
+                session = Session.getCurrentSession();
+                session.addCallback(sessionCallback);
+                session.open(AuthType.KAKAO_TALK, LoginActivity.this);
+            }
+        });
+                /*페이스북*/
         facebook_sign_in_button = (Button)findViewById(R.id.facebook_sign_in_button);
         mCallbackManager = CallbackManager.Factory.create();
+
         facebook_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,14 +127,15 @@ public class LoginActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
+                firebaseAuthWithGoogle(account.getIdToken(),account.getDisplayName());
+                startCheck(new CheckData(account.getIdToken()),account.getIdToken(),account.getDisplayName());
             } catch (ApiException e) {
 
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(String idToken,String userName) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -118,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(toMainPageIntent);
 
                         } else {
-                            Toast.makeText(getApplicationContext(), "구글 로그인 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -163,5 +191,46 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void success() {
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
+    }
+    private void startJoin(JoinData data) {
+        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
+            @Override
+            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
+                JoinResponse result = response.body();
+                if (result.getCode() == 200) {
+                    Log.d("resultCode",result.getCode()+"");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JoinResponse> call, Throwable t) {
+                Log.e("회원가입 에러 발생", t.getMessage());
+            }
+        });
+    }
+
+
+    private void startCheck(CheckData data, final String idToken, final String userName) {
+        service.userCheck(data).enqueue(new Callback<CheckResponse>() {
+            @Override
+            public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
+                CheckResponse result = response.body();
+                Log.d("result",result.getMessage()+"");
+                if(result.getMessage() ==true){
+                    startJoin(new JoinData(idToken,userName));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckResponse> call, Throwable t) {
+                Log.e("체크 에러 발생", t.getMessage());
+            }
+        });
     }
 }

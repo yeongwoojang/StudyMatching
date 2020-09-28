@@ -1,5 +1,6 @@
 package com.stuty.studymatching.RTROFIT;
 
+
 import com.google.gson.annotations.SerializedName;
 
 public class JoinData {
