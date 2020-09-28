@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.FRAGMENT.CreatePage;
 import com.stuty.studymatching.R;
@@ -34,13 +35,20 @@ public class MainActivity extends AppCompatActivity {
 
     private long backKeyPressed = 0;
     private Toast backBtClickToast;
+
     private DrawerLayout mDrawerLayout;
     private ImageButton menuBt;
+    private TabLayout tabLayout;
 
     private final int FRAGMENT1 = 0;
     private final int FRAGMENT2 = 1;
     private final int FRAGMENT3 = 2;
     private final String[] tabNames = {"홈", "검색", "생성"};
+    private int[] tabIcons = {
+            R.drawable.baseline_home_24,
+            R.drawable.baseline_search_24,
+            R.drawable.baseline_create_24
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        tabLayout = (TabLayout)findViewById(R.id.tabs);
+
         menuBt = (ImageButton) findViewById(R.id.menu_button);
 
         menuBt.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +94,46 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        for(int i=0;i<tabNames.length;i++){
+            tabLayout.addTab(tabLayout.newTab());
+        }
+        tabLayout.getTabAt(FRAGMENT1).setTag(FRAGMENT1);
+        tabLayout.getTabAt(FRAGMENT1).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(FRAGMENT2).setTag(FRAGMENT2);
+        tabLayout.getTabAt(FRAGMENT2).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(FRAGMENT3).setTag(FRAGMENT3);
+        tabLayout.getTabAt(FRAGMENT3).setIcon(tabIcons[2]);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (Integer.parseInt(String.valueOf(tab.getTag()))){
+                    case FRAGMENT1:
+                        // '버튼1' 클릭 시 '프래그먼트1' 호출
+                        callFragment(FRAGMENT1);
+                        break;
+
+                    case FRAGMENT2:
+                        // '버튼2' 클릭 시 '프래그먼트2' 호출
+                        callFragment(FRAGMENT2);
+                        break;
+                    case FRAGMENT3:
+                        callFragment(FRAGMENT3);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
 

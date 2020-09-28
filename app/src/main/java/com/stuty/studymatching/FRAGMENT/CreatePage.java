@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +20,8 @@ import com.stuty.studymatching.R;
 public class CreatePage extends Fragment {
 
     EditText contentEdt;
-    Button postingBt,clostBt;
+    Button postingBt;
+    ImageButton clostBt;
 
     public CreatePage newInstance(){return new CreatePage();}
 
