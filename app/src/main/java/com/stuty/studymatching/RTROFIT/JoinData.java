@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class JoinData {
 
-    @SerializedName("userToken")
-    private String userToken;
+    @SerializedName("userEmail")
+    private String userEmail;
 
     @SerializedName("userName")
     private String userName;
 
 
-    public JoinData(String userToken, String userName) {
-        this.userToken = userToken;
+    public JoinData(String userEmail, String userName) {
+        this.userEmail = userEmail;
         this.userName = userName;
     }
 }

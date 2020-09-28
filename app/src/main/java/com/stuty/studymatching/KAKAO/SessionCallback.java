@@ -14,12 +14,19 @@ import com.kakao.usermgmt.response.model.Profile;
 import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
+import com.stuty.studymatching.SERVER.DatabaseCheck;
+import com.stuty.studymatching.RTROFIT.CheckData;
 
 import java.io.IOException;
 
 public class SessionCallback implements ISessionCallback {
-
+    DatabaseCheck dbCheck;
     KakaoLoginListener listener;
+
+    public SessionCallback(DatabaseCheck dbCheck) {
+        this.dbCheck = dbCheck;
+    }
+
     // 로그인에 성공한 상태
     @Override
     public void onSessionOpened() {
@@ -75,7 +82,6 @@ public class SessionCallback implements ISessionCallback {
                     public void onSuccess(MeV2Response result) {
                         Log.i("KAKAO_API", "사용자 아이디: " + result.getId());
                         UserAccount kakaoAccount = result.getKakaoAccount();
-                        listener.success();
                         if (kakaoAccount != null) {
 //                                redirectSignupActivity();
                             // 이메일
@@ -100,7 +106,8 @@ public class SessionCallback implements ISessionCallback {
                                 Log.d("KAKAO_API", "nickname: " + profile.getNickname());
                                 Log.d("KAKAO_API", "profile image: " + profile.getProfileImageUrl());
                                 Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
-
+                                dbCheck.startCheck(new CheckData(kakaoAccount.getEmail()),kakaoAccount.getEmail(),profile.getNickname());
+                                listener.success();
                             } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
                                 // 동의 요청 후 프로필 정보 획득 가능
 

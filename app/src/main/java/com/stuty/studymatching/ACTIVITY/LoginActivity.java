@@ -33,20 +33,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
+import com.stuty.studymatching.SERVER.DatabaseCheck;
 import com.stuty.studymatching.KAKAO.SessionCallback;
 import com.stuty.studymatching.R;
 import com.stuty.studymatching.RTROFIT.CheckData;
-import com.stuty.studymatching.RTROFIT.CheckResponse;
-import com.stuty.studymatching.RTROFIT.JoinData;
-import com.stuty.studymatching.RTROFIT.JoinResponse;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
 import java.util.Arrays;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements SessionCallback.KakaoLoginListener {
 
@@ -63,8 +57,9 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
     private ServiceApi service;
     private Button google_sign_in_button,kakao_sign_in_button;
 
+    private DatabaseCheck dbcheck;
+    private SessionCallback sessionCallback;
     Session session;
-    private SessionCallback sessionCallback = new SessionCallback();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +70,14 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
         service = RetrofitClient.getClient().create(ServiceApi.class);
+        dbcheck = new DatabaseCheck(service);
+
+        sessionCallback = new SessionCallback(dbcheck);
+
+
         google_sign_in_button = (Button) findViewById(R.id.google_sign_in_button);
+        facebook_sign_in_button = (Button)findViewById(R.id.facebook_sign_in_button);
+        kakao_sign_in_button = (Button)findViewById(R.id.kakao_sign_in_button);
 
         if (mAuth.getCurrentUser() != null) {
             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -88,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-
+        //구글로그인 버튼클릭 이벤트
         google_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +99,16 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
 
             }
         });
-        kakao_sign_in_button = (Button)findViewById(R.id.kakao_sign_in_button);
+        //페이스북로그인 버튼클릭 이벤트
+        facebook_sign_in_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                facebookLogin();
+            }
+        });
+        mCallbackManager = CallbackManager.Factory.create();
+
+        //카카오톡로그인 버튼클릭 이벤트
         kakao_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,16 +118,9 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                 session.open(AuthType.KAKAO_TALK, LoginActivity.this);
             }
         });
-                /*페이스북*/
-        facebook_sign_in_button = (Button)findViewById(R.id.facebook_sign_in_button);
-        mCallbackManager = CallbackManager.Factory.create();
 
-        facebook_sign_in_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                facebookLogin();
-            }
-        });
+
+
     }
 
     @Override
@@ -127,15 +131,15 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken(),account.getDisplayName());
-                startCheck(new CheckData(account.getIdToken()),account.getIdToken(),account.getDisplayName());
+                firebaseAuthWithGoogle(account.getIdToken());
+                dbcheck.startCheck(new CheckData(account.getEmail()),account.getEmail(),account.getDisplayName());
             } catch (ApiException e) {
 
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken,String userName) {
+    private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -198,39 +202,39 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intent);
     }
-    private void startJoin(JoinData data) {
-        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
-            @Override
-            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
-                JoinResponse result = response.body();
-                if (result.getCode() == 200) {
-                    Log.d("resultCode",result.getCode()+"");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JoinResponse> call, Throwable t) {
-                Log.e("회원가입 에러 발생", t.getMessage());
-            }
-        });
-    }
-
-
-    private void startCheck(CheckData data, final String idToken, final String userName) {
-        service.userCheck(data).enqueue(new Callback<CheckResponse>() {
-            @Override
-            public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
-                CheckResponse result = response.body();
-                Log.d("result",result.getMessage()+"");
-                if(result.getMessage() ==true){
-                    startJoin(new JoinData(idToken,userName));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CheckResponse> call, Throwable t) {
-                Log.e("체크 에러 발생", t.getMessage());
-            }
-        });
-    }
+//    private void startJoin(JoinData data) {
+//        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
+//            @Override
+//            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
+//                JoinResponse result = response.body();
+//                if (result.getCode() == 200) {
+//                    Log.d("resultCode",result.getCode()+"");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JoinResponse> call, Throwable t) {
+//                Log.e("회원가입 에러 발생", t.getMessage());
+//            }
+//        });
+//    }
+//
+//
+//    private void startCheck(CheckData data, final String idToken, final String userName) {
+//        service.userCheck(data).enqueue(new Callback<CheckResponse>() {
+//            @Override
+//            public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
+//                CheckResponse result = response.body();
+//                Log.d("result",result.getMessage()+"");
+//                if(result.getMessage() ==true){
+//                    startJoin(new JoinData(idToken,userName));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CheckResponse> call, Throwable t) {
+//                Log.e("체크 에러 발생", t.getMessage());
+//            }
+//        });
+//    }
 }

@@ -4,11 +4,11 @@ package com.stuty.studymatching.RTROFIT;
 import com.google.gson.annotations.SerializedName;
 
 public class CheckData {
-    @SerializedName("userToken")
-    String userToken;
+    @SerializedName("userEmail")
+    String userEmail;
 
 
-    public CheckData(String userToken) {
-        this.userToken = userToken;
+    public CheckData(String userEmail) {
+        this.userEmail = userEmail;
     }
 }
