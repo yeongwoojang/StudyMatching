@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.stuty.studymatching">
-
     <!-- 인터넷 사용 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,13 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- 페이스북 메타데이터 -->
+        <activity android:name=".ACTIVITY.Fragment3"></activity>
+        <activity android:name=".ACTIVITY.Fragment2" />
+        <activity android:name=".ACTIVITY.Fragment1" /> <!-- 페이스북 메타데이터 -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
-        <!--카카오톡 메타데이터-->
+            android:value="@string/facebook_app_id" /> <!-- 카카오톡 메타데이터 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
@@ -32,9 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ACTIVITY.MainActivity">
-
-        </activity>
+        <activity android:name=".ACTIVITY.MainActivity" />
     </application>
 
 </manifest>

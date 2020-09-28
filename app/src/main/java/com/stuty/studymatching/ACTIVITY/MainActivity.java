@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.R;
 
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private Toast backBtClickToast;
     private DrawerLayout mDrawerLayout;
     private ImageButton menuBt;
+
+    TabLayout tabs;
+
+    Fragment1 fragment1;
+    Fragment2 fragment2;
+    Fragment3 fragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,19 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+        fragment1 = new Fragment1();
+        fragment2 = new Fragment2();
+        fragment3 = new Fragment3();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment1).commit();
+
+        tabs = findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("메뉴1"));
+        tabs.addTab(tabs.newTab().setText("메뉴2"));
+        tabs.addTab(tabs.newTab().setText("메뉴3"));
+
 
     }
 

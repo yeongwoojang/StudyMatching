@@ -202,39 +202,4 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intent);
     }
-//    private void startJoin(JoinData data) {
-//        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
-//            @Override
-//            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
-//                JoinResponse result = response.body();
-//                if (result.getCode() == 200) {
-//                    Log.d("resultCode",result.getCode()+"");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JoinResponse> call, Throwable t) {
-//                Log.e("회원가입 에러 발생", t.getMessage());
-//            }
-//        });
-//    }
-//
-//
-//    private void startCheck(CheckData data, final String idToken, final String userName) {
-//        service.userCheck(data).enqueue(new Callback<CheckResponse>() {
-//            @Override
-//            public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
-//                CheckResponse result = response.body();
-//                Log.d("result",result.getMessage()+"");
-//                if(result.getMessage() ==true){
-//                    startJoin(new JoinData(idToken,userName));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CheckResponse> call, Throwable t) {
-//                Log.e("체크 에러 발생", t.getMessage());
-//            }
-//        });
-//    }
 }

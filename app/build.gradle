@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -55,6 +59,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
 
 
-
     implementation 'org.conscrypt:conscrypt-android:2.5.0'
+
+
+// API 29 ~
+    implementation 'com.google.android.material:material:1.1.0'
 }
