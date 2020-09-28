@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -100,13 +101,13 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
             }
         });
         //페이스북로그인 버튼클릭 이벤트
+        mCallbackManager = CallbackManager.Factory.create();
         facebook_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 facebookLogin();
             }
         });
-        mCallbackManager = CallbackManager.Factory.create();
 
         //카카오톡로그인 버튼클릭 이벤트
         kakao_sign_in_button.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +159,6 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
     private void facebookLogin(){
         Log.d("facebook","facebookLogin()");
         LoginManager.getInstance().logInWithReadPermissions(this,Arrays.asList("public_profile","email"));
-
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -237,4 +237,5 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
 //            }
 //        });
 //    }
+
 }
