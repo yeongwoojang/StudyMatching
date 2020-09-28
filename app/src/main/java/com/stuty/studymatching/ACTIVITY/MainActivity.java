@@ -1,6 +1,7 @@
 package com.stuty.studymatching.ACTIVITY;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,15 +9,23 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.stuty.studymatching.R;
 
 import retrofit2.Call;
@@ -26,11 +35,12 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private Context mContext =null;
-
     private long backKeyPressed = 0;
     private Toast backBtClickToast;
     private DrawerLayout mDrawerLayout;
     private ImageButton menuBt;
+
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +81,15 @@ public class MainActivity extends AppCompatActivity {
 
                 }else if(id==R.id.logout){
                     FirebaseAuth.getInstance().signOut();
-                    finish();
-
+                    UserManagement.getInstance()
+                            .requestLogout(new LogoutResponseCallback() {
+                                @Override
+                                public void onCompleteLogout() {
+                                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
 
                 return true;

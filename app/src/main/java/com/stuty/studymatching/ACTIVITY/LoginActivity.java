@@ -1,14 +1,18 @@
 package com.stuty.studymatching.ACTIVITY;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,7 +26,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import com.kakao.auth.AuthType;
+import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
+import com.kakao.network.ApiErrorCode;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.exception.KakaoException;
 import com.stuty.studymatching.ACTIVITY.RTROFIT.CheckData;
 import com.stuty.studymatching.ACTIVITY.RTROFIT.CheckResponse;
 import com.stuty.studymatching.ACTIVITY.RTROFIT.JoinData;
@@ -43,10 +59,13 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private ServiceApi service;
-
-    private SignInButton googleLoginBt;
-
+    private Button googleLoginBt;
     private Boolean isStoredUser;
+
+    private Button kakaoLgoinBt;
+
+    private SessionCallback sessionCallback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +76,9 @@ public class LoginActivity extends AppCompatActivity {
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
 
-        googleLoginBt = (SignInButton) findViewById(R.id.google_login_button);
-
+        googleLoginBt = (Button) findViewById(R.id.google_sign_in_button);
         service = RetrofitClient.getClient().create(ServiceApi.class);
+
 
         if (mAuth.getCurrentUser() != null) {
             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -78,12 +97,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
             }
         });
 
-    }
+        sessionCallback = new SessionCallback();
+        Session.getCurrentSession().addCallback(sessionCallback);
+        Session.getCurrentSession().checkAndImplicitOpen();
 
+        kakaoLgoinBt = (Button) findViewById(R.id.kakao_sign_in_button);
+        kakaoLgoinBt.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
+            }
+        });
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -93,10 +121,13 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken(),account.getDisplayName());
                 startCheck(new CheckData(account.getIdToken()),account.getIdToken(),account.getDisplayName());
-
             } catch (ApiException e) {
 
             }
+        }
+        if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
         }
     }
 
@@ -109,7 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(toMainPageIntent);
-
                         } else {
                             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
@@ -151,5 +181,49 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("체크 에러 발생", t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(sessionCallback);
+   }
+
+    private class SessionCallback implements ISessionCallback {
+        @Override
+        public void onSessionOpened() {
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                @Override
+                public void onFailure(ErrorResult errorResult) {
+                    int result = errorResult.getErrorCode();
+
+                    if(result == ApiErrorCode.CLIENT_ERROR_CODE) {
+                        Toast.makeText(getApplicationContext(), "네트워크 연결이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(),"로그인 도중 오류가 발생했습니다: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+                    Toast.makeText(getApplicationContext(),"세션이 닫혔습니다. 다시 시도해 주세요: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name", result.getNickname());
+                    intent.putExtra("profile", result.getProfileImagePath());
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
+
+        @Override
+        public void onSessionOpenFailed(KakaoException e) {
+            Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요: "+e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

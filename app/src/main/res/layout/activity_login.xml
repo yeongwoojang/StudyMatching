@@ -19,31 +19,81 @@
         android:textColor="@color/black"
         android:textSize="50dp"></TextView>
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/bm_dohyeon_ttf"
-            android:text="구글계정으로 로그인"
-            android:layout_above="@+id/google_login_button"
-            android:textColor="@color/black"
-            android:textSize="10dp"
-            android:layout_marginLeft="18dp"
-            ></TextView>
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:text="구글계정으로 로그인"
+                android:layout_above="@+id/google_sign_in_button"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:layout_marginLeft="18dp"
+                ></TextView>
+            <Button
+                android:id="@+id/google_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/btn_signin_google"
+                android:text="@string/signin_google"
+                android:textColor="@color/white">
+            </Button>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:text="카카오계정으로 로그인"
+                android:textColor="@color/black"
+                android:textSize="10dp"></TextView>
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/google_login_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            ></com.google.android.gms.common.SignInButton>
+            <Button
+                android:id="@+id/facebook_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/signin_facebook"
+                android:background="@drawable/btn_signin_facebook"
+                android:textColor="@color/white">
+            </Button>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:text="카카오계정으로 로그인"
+                android:textColor="@color/black"
+                android:textSize="10dp"></TextView>
+
+            <Button
+                android:id="@+id/kakao_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/signin_kakao"
+                android:background="@drawable/btn_signin_kakao"
+                android:textColor="@color/black">
+            </Button>
+        </LinearLayout>
     </RelativeLayout>
-
 </LinearLayout>
