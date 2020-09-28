@@ -16,7 +16,7 @@ public class GlobalApplication extends Application {
 
     public static GlobalApplication getGlobalApplicationContext() {
         if (instance == null) {
-            throw new IllegalStateException("This Application does not inherit com.kakao.com.example.yourschedule.GlobalApplication");
+            throw new IllegalStateException("This Application does not inherit com.kakao.com.stutymatching.KAKAO.GlobalApplication");
         }
 
         return instance;
