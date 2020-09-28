@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -20,10 +22,14 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stuty.studymatching.FRAGMENT.TabMenu1;
+import com.stuty.studymatching.FRAGMENT.TabMenu2;
+import com.stuty.studymatching.FRAGMENT.TabMenu3;
 import com.stuty.studymatching.R;
 
-import java.security.MessageDigest;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
     private Toast backBtClickToast;
     private DrawerLayout mDrawerLayout;
     private ImageButton menuBt;
+
+    //TabLayout
+    TabLayout tabs;
+    TabMenu1 tabMenu1;
+    TabMenu2 tabMenu2;
+    TabMenu3 tabMenu3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +90,43 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+
+        //tablayout
+        tabMenu1 = new TabMenu1();
+        tabMenu2 = new TabMenu2();
+        tabMenu3 = new TabMenu3();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.container, tabMenu1).commit();
+
+        tabs = findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("주변 스터디"));
+        tabs.addTab(tabs.newTab().setText("채팅"));
+        tabs.addTab(tabs.newTab().setText("마이 페이지"));
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                Fragment selected = null;
+                if(position==0)
+                    selected = tabMenu1;
+                else if(position == 1)
+                    selected = tabMenu2;
+                else if(position == 2)
+                    selected = tabMenu3;
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,selected).commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 

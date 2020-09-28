@@ -8,44 +8,67 @@
     tools:context=".ACTIVITY.MainActivity"
     android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <View
-            android:id="@+id/view_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="2dp">
-        </View>
 
-        <androidx.appcompat.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <View
+                android:id="@+id/view_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="2dp">
+            </View>
+
+            <androidx.appcompat.widget.Toolbar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/amber300"
+                >
+                <ImageButton
+                    android:id="@+id/menu_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_menu_24"
+                    android:background="@color/transparent"
+                    ></ImageButton>
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:text="Study Matching"
+                    android:fontFamily="@font/bm_hanna_pro"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+            </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/TabLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="1dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/gray700"
             android:background="@color/amber300"
-            >
-            <ImageButton
-                android:id="@+id/menu_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_menu_24"
-                android:background="@color/transparent"
-                ></ImageButton>
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:text="Study Matching"
-                android:fontFamily="@font/bm_hanna_pro"
-                android:textSize="25dp"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </androidx.appcompat.widget.Toolbar>
+            ></com.google.android.material.tabs.TabLayout>
+    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/TabLinear"
+            android:layout_marginTop="50dp">
+        </FrameLayout>
     </RelativeLayout>
-
-
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -55,6 +78,5 @@
         app:headerLayout="@layout/navi_header"
         app:menu="@menu/navi_menu"
         >
-
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -21,4 +21,6 @@
     <string name="signout_success">로그아웃 성공</string>
     <string name="signout_fail">로그아웃 실패</string>
     <string name="signout_fail_null">이메일과 비밀번호를 입력해주세요</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
