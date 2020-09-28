@@ -21,6 +21,8 @@ public class CreatePage extends Fragment {
     EditText contentEdt;
     Button postingBt;
 
+    public CreatePage newInstance(){return new CreatePage();}
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

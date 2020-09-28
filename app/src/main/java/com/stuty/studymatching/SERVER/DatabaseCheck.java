@@ -39,14 +39,14 @@ public class DatabaseCheck {
     }
 
 
-     public void startCheck(CheckData data, final String userEmail, final String userName) {
+     public void startCheck(CheckData data,final String signInMethod, final String userEmail, final String userName,final String userPassword) {
         service.userCheck(data).enqueue(new Callback<CheckResponse>() {
             @Override
             public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
                 CheckResponse result = response.body();
                 Log.d("result",result.getMessage()+"");
                 if(result.getMessage() ==true){
-                    startJoin(new JoinData(userEmail,userName));
+                    startJoin(new JoinData(signInMethod,userEmail,userName,userPassword));
                 }
             }
 

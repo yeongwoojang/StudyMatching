@@ -106,7 +106,7 @@ public class SessionCallback implements ISessionCallback {
                                 Log.d("KAKAO_API", "nickname: " + profile.getNickname());
                                 Log.d("KAKAO_API", "profile image: " + profile.getProfileImageUrl());
                                 Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
-                                dbCheck.startCheck(new CheckData(kakaoAccount.getEmail()),kakaoAccount.getEmail(),profile.getNickname());
+                                dbCheck.startCheck(new CheckData("kakao",kakaoAccount.getEmail()),"kakao",kakaoAccount.getEmail(),profile.getNickname(),null);
                                 listener.success();
                             } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
                                 // 동의 요청 후 프로필 정보 획득 가능
