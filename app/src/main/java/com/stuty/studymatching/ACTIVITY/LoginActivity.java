@@ -94,8 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode,resultCode,data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(toMainPageIntent);
 
                         } else {
-                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "구글 로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 firebaseAuthWithFacebook(loginResult.getAccessToken());
-                Toast.makeText(getApplicationContext(),"로그인 성공",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"페북 로그인 성공",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(toMainPageIntent);
                             finish();
                         }else {
-                            Toast.makeText(getApplicationContext(),"로그인 실패",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"페북 로그인 실패",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
