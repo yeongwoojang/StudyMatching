@@ -19,7 +19,7 @@ import com.stuty.studymatching.R;
 public class CreatePage extends Fragment {
 
     EditText contentEdt;
-    Button postingBt;
+    Button postingBt,clostBt;
 
     public CreatePage newInstance(){return new CreatePage();}
 
@@ -29,6 +29,7 @@ public class CreatePage extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_createpage, container, false);
         contentEdt = rootView.findViewById(R.id.content_edt);
         postingBt = rootView.findViewById(R.id.posting_bt);
+        clostBt = rootView.findViewById(R.id.close_bt);
         return rootView;
     }
 

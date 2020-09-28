@@ -44,6 +44,7 @@ public class DatabaseCheck {
             @Override
             public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
                 CheckResponse result = response.body();
+
                 Log.d("result",result.getMessage()+"");
                 if(result.getMessage() ==true){
                     startJoin(new JoinData(signInMethod,userEmail,userName,userPassword));
