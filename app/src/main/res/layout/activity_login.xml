@@ -8,66 +8,104 @@
     android:orientation="vertical"
     tools:context=".ACTIVITY.LoginActivity">
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@drawable/form_login"
+    >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="16dp"
         android:fontFamily="@font/bm_dohyeon_ttf"
-        android:gravity="center"
-        android:text="로그인"
+        android:gravity="center|center_vertical"
+        android:layout_gravity="center"
+        android:text="StudyMatching"
         android:textColor="@color/black"
-        android:textSize="50dp"></TextView>
+        android:textSize="30dp"
+        ></TextView>
+</LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/bm_dohyeon_ttf"
-            android:text="페북계정으로 로그인"
-            android:layout_above="@+id/facebook_sign_in_button"
-            android:textColor="@color/black"
-            android:textSize="10dp"
-            android:layout_marginLeft="18dp"
-            ></TextView>
-        <Button
-            android:id="@+id/facebook_sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_above="@+id/google_sign_in_tv"
-            android:background="@drawable/btn_signin_facebook"
-            android:text="@string/signin_facebook"
-            android:textColor="@color/white" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/google_sign_in_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/bm_dohyeon_ttf"
-            android:text="구글계정으로 로그인"
-            android:layout_above="@+id/google_sign_in_button"
-            android:textColor="@color/black"
-            android:textSize="10dp"
-            android:layout_marginLeft="18dp"
-            ></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:text="구글계정으로 로그인"
+                android:layout_above="@+id/google_sign_in_button"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginBottom="8dp"
+                ></TextView>
+            <Button
+                android:id="@+id/google_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/btn_signin_google"
+                android:text="@string/signin_google"
+                android:textColor="@color/white">
+            </Button>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:text="카카오계정으로 로그인"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:layout_marginBottom="8dp"
+                ></TextView>
 
-        <Button
-            android:id="@+id/google_sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/btn_signin_google"
-            android:text="@string/signin_google"
-            android:textColor="@color/white" />
+            <Button
+                android:id="@+id/facebook_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/signin_facebook"
+                android:background="@drawable/btn_signin_facebook"
+                android:textColor="@color/white">
+            </Button>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:text="카카오계정으로 로그인"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:layout_marginBottom="8dp"
+                ></TextView>
+
+            <Button
+                android:id="@+id/kakao_sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/signin_kakao"
+                android:background="@drawable/btn_signin_kakao"
+                android:textColor="@color/black">
+            </Button>
+        </LinearLayout>
     </RelativeLayout>
-
 </LinearLayout>

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.stuty.studymatching">
+<<<<<<<<< Temporary merge branch 1
     <uses-permission android:name="android.permission.INTERNET" />
+=========
+
+    <!-- 인터넷 사용 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+>>>>>>>>> Temporary merge branch 2
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"

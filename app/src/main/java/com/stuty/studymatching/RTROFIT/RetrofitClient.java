@@ -1,4 +1,4 @@
-package com.stuty.studymatching.ACTIVITY.RTROFIT;
+package com.stuty.studymatching.RTROFIT;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

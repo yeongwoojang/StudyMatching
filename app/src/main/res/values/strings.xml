@@ -1,15 +1,20 @@
 <resources>
+    <!--카카오앱키-->
     <string name="app_name">StudyMatching</string>
+    <string name="kakao_app_key">b36f12fb12ec9d4bb11c0b70eb5c7781</string>
+
     <!--페이스북 앱 키-->
     <string name="facebook_app_id">344392990347430</string>
     <string name="fb_login_protocol_scheme">fb344392990347430</string>
+
     <!-- Sign In -->
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="signin_email">회원가입 및 이메일 로그인</string>
-    <string name="signin_google">Google으로 로그인</string>
+    <string name="signin_google">Google로 로그인</string>
     <string name="signin_facebook">Facebook으로 로그인</string>
-    <string name="signin_twitter">Twitter으로 로그인</string>
+    <string name="signin_twitter">Twitter로 로그인</string>
+    <string name="signin_kakao">Kakao로 로그인</string>
     <string name="signup_complete">회원가입 성공</string>
     <string name="signin_complete">로그인 성공</string>
     <string name="signout">로그아웃</string>

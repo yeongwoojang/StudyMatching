@@ -7,10 +7,11 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
     android:gravity="bottom">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="StudyMaching"
+        android:text="StudyMatching"
         android:textSize="20dp"
         android:fontFamily="@font/bm_yeonsung_ttf"
         android:padding="10dp"
