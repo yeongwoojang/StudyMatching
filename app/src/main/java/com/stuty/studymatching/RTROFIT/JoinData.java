@@ -4,6 +4,8 @@ package com.stuty.studymatching.RTROFIT;
 import com.google.gson.annotations.SerializedName;
 
 public class JoinData {
+    @SerializedName("signInMethod")
+    private String signInMethod;
 
     @SerializedName("userEmail")
     private String userEmail;
@@ -11,9 +13,13 @@ public class JoinData {
     @SerializedName("userName")
     private String userName;
 
+    @SerializedName("userPassword")
+    private String userPassword;
 
-    public JoinData(String userEmail, String userName) {
+    public JoinData(String signInMethod, String userEmail, String userName,String userPassword) {
+        this.signInMethod = signInMethod;
         this.userEmail = userEmail;
         this.userName = userName;
+        this.userPassword = userPassword;
     }
 }

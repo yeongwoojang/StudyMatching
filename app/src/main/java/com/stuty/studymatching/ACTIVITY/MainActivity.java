@@ -6,8 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -23,36 +22,42 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.stuty.studymatching.FRAGMENT.TabMenu1;
-import com.stuty.studymatching.FRAGMENT.TabMenu2;
-import com.stuty.studymatching.FRAGMENT.TabMenu3;
+import com.stuty.studymatching.FRAGMENT.CreatePage;
 import com.stuty.studymatching.R;
 
+import java.security.MessageDigest;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private Context mContext =null;
+    private Context mContext = null;
 
     private long backKeyPressed = 0;
     private Toast backBtClickToast;
+
     private DrawerLayout mDrawerLayout;
     private ImageButton menuBt;
+    private TabLayout tabLayout;
 
-    //TabLayout
-    TabLayout tabs;
-    TabMenu1 tabMenu1;
-    TabMenu2 tabMenu2;
-    TabMenu3 tabMenu3;
+    private final int FRAGMENT1 = 0;
+    private final int FRAGMENT2 = 1;
+    private final int FRAGMENT3 = 2;
+    private final String[] tabNames = {"홈", "검색", "생성"};
+    private int[] tabIcons = {
+            R.drawable.baseline_home_24,
+            R.drawable.baseline_search_24,
+            R.drawable.baseline_create_24
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        mContext = this;
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
@@ -60,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        menuBt = (ImageButton)findViewById(R.id.menu_button);
+        tabLayout = (TabLayout)findViewById(R.id.tabs);
+
+        menuBt = (ImageButton) findViewById(R.id.menu_button);
 
         menuBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
-// ServiceApi 객체 생성
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -81,42 +85,42 @@ public class MainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
 
-                if(id==R.id.setting){
+                if (id == R.id.setting) {
 
-                }else if(id==R.id.logout){
+                } else if (id == R.id.logout) {
                     FirebaseAuth.getInstance().signOut();
                     finish();
-
                 }
-
                 return true;
             }
         });
 
-        //tablayout
-        tabMenu1 = new TabMenu1();
-        tabMenu2 = new TabMenu2();
-        tabMenu3 = new TabMenu3();
+        for(int i=0;i<tabNames.length;i++){
+            tabLayout.addTab(tabLayout.newTab());
+        }
+        tabLayout.getTabAt(FRAGMENT1).setTag(FRAGMENT1);
+        tabLayout.getTabAt(FRAGMENT1).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(FRAGMENT2).setTag(FRAGMENT2);
+        tabLayout.getTabAt(FRAGMENT2).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(FRAGMENT3).setTag(FRAGMENT3);
+        tabLayout.getTabAt(FRAGMENT3).setIcon(tabIcons[2]);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, tabMenu1).commit();
-
-        tabs = findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("주변 스터디"));
-        tabs.addTab(tabs.newTab().setText("채팅"));
-        tabs.addTab(tabs.newTab().setText("마이 페이지"));
-
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                Fragment selected = null;
-                if(position==0)
-                    selected = tabMenu1;
-                else if(position == 1)
-                    selected = tabMenu2;
-                else if(position == 2)
-                    selected = tabMenu3;
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,selected).commit();
+                switch (Integer.parseInt(String.valueOf(tab.getTag()))){
+                    case FRAGMENT1:
+                        // '버튼1' 클릭 시 '프래그먼트1' 호출
+                        callFragment(FRAGMENT1);
+                        break;
+
+                    case FRAGMENT2:
+                        // '버튼2' 클릭 시 '프래그먼트2' 호출
+                        callFragment(FRAGMENT2);
+                        break;
+                    case FRAGMENT3:
+                        callFragment(FRAGMENT3);
+                }
             }
 
             @Override
@@ -133,11 +137,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home :
+        switch (item.getItemId()) {
+            case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -146,18 +149,43 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-            if (System.currentTimeMillis() > backKeyPressed + 2000) {
-                backKeyPressed = System.currentTimeMillis();
-                backBtClickToast = Toast.makeText(this, "\'뒤로가기\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
-                backBtClickToast.show();
-                return;
-            }
-            if (System.currentTimeMillis() <= backKeyPressed + 2000) {
-                finishAffinity();
-                backBtClickToast.cancel();
-            }
-         else {
+        if (System.currentTimeMillis() > backKeyPressed + 2000) {
+            backKeyPressed = System.currentTimeMillis();
+            backBtClickToast = Toast.makeText(this, "\'뒤로가기\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            backBtClickToast.show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressed + 2000) {
+            finishAffinity();
+            backBtClickToast.cancel();
+        } else {
             super.onBackPressed();
+        }
+    }
+
+    private void callFragment(int fragment) {
+
+        // 프래그먼트 사용을 위해
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        switch (fragment) {
+            default:
+
+            case FRAGMENT1:
+                // '프래그먼트1' 호출
+
+                break;
+
+            case FRAGMENT2:
+                // '프래그먼트2' 호출
+
+                break;
+            case FRAGMENT3:
+                // '프래그먼트3' 호출
+                CreatePage createPage = new CreatePage().newInstance();
+                transaction.replace(R.id.main_container, createPage);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
         }
     }
 

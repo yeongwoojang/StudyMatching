@@ -5,11 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -44,25 +40,21 @@ import com.stuty.studymatching.RTROFIT.CheckData;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
-import java.security.MessageDigest;
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity implements SessionCallback.KakaoLoginListener {
 
     public static final int RC_SIGN_IN = 10;
 
-    /*facebook*/
-    private Button facebook_sign_in_button;
     private CallbackManager mCallbackManager;
 
-    /*google*/
     private Context mContext = null;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private ServiceApi service;
-    private Button google_sign_in_button,kakao_sign_in_button;
+    private Button google_sign_in_button,facebook_sign_in_button,kakao_sign_in_button;
 
-    private DatabaseCheck dbcheck;
+    private DatabaseCheck dbCheck;
     private SessionCallback sessionCallback;
     Session session;
     @Override
@@ -75,9 +67,9 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
         service = RetrofitClient.getClient().create(ServiceApi.class);
-        dbcheck = new DatabaseCheck(service);
+        dbCheck = new DatabaseCheck(service);
 
-        sessionCallback = new SessionCallback(dbcheck);
+        sessionCallback = new SessionCallback(dbCheck);
 
 
         google_sign_in_button = (Button) findViewById(R.id.google_sign_in_button);
@@ -105,13 +97,13 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
             }
         });
         //페이스북로그인 버튼클릭 이벤트
+        mCallbackManager = CallbackManager.Factory.create();
         facebook_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 facebookLogin();
             }
         });
-        mCallbackManager = CallbackManager.Factory.create();
 
         //카카오톡로그인 버튼클릭 이벤트
         kakao_sign_in_button.setOnClickListener(new View.OnClickListener() {
@@ -125,19 +117,20 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         });
 
 
-        getAppKeyHash();
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("execute","onActivityResult");
         mCallbackManager.onActivityResult(requestCode,resultCode,data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
-                dbcheck.startCheck(new CheckData(account.getEmail()),account.getEmail(),account.getDisplayName());
+//                dbCheck.startCheck(new CheckData(account.getEmail()),account.getEmail(),account.getDisplayName());
             } catch (ApiException e) {
 
             }
@@ -145,12 +138,15 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+        Log.d("execute","firebaseAuthWithGoogle");
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            dbCheck.startCheck(new CheckData("google",user.getEmail()),"google",user.getEmail(),user.getDisplayName(),null);
                             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(toMainPageIntent);
 
@@ -161,9 +157,8 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                 });
     }
     private void facebookLogin(){
-        Log.d("facebook","facebookLogin()");
+        Log.d("execute","facebookLogin");
         LoginManager.getInstance().logInWithReadPermissions(this,Arrays.asList("public_profile","email"));
-
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -184,6 +179,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
     }
 
     private void firebaseAuthWithFacebook(AccessToken accessToken) {
+        Log.d("execute","firebaseAuthWithFacebook");
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -191,7 +187,8 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Log.d("LoginSuccess",user.getDisplayName()+"");
+                            Log.d("facebook",user.getEmail());
+                            dbCheck.startCheck(new CheckData("facebook",user.getEmail()),"facebook",user.getEmail(),user.getDisplayName(),null);
                             Intent toMainPageIntent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(toMainPageIntent);
                             finish();
@@ -207,55 +204,5 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intent);
     }
-//    private void startJoin(JoinData data) {
-//        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
-//            @Override
-//            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
-//                JoinResponse result = response.body();
-//                if (result.getCode() == 200) {
-//                    Log.d("resultCode",result.getCode()+"");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JoinResponse> call, Throwable t) {
-//                Log.e("회원가입 에러 발생", t.getMessage());
-//            }
-//        });
-//    }
-//
-//
-//    private void startCheck(CheckData data, final String idToken, final String userName) {
-//        service.userCheck(data).enqueue(new Callback<CheckResponse>() {
-//            @Override
-//            public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
-//                CheckResponse result = response.body();
-//                Log.d("result",result.getMessage()+"");
-//                if(result.getMessage() ==true){
-//                    startJoin(new JoinData(idToken,userName));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CheckResponse> call, Throwable t) {
-//                Log.e("체크 에러 발생", t.getMessage());
-//            }
-//        });
-//    }
-private void getAppKeyHash() {
-    try {
-        PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-        for (Signature signature : info.signatures) {
-            MessageDigest md;
-            md = MessageDigest.getInstance("SHA");
-            md.update(signature.toByteArray());
-            String something = new String(Base64.encode(md.digest(), 0));
-            Log.e("Hash key", something);
-        }
-    } catch (Exception e) {
-        // TODO Auto-generated catch block
-        Log.e("name not found", e.toString());
-    }
-}
 
 }
