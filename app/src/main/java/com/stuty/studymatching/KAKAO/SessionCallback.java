@@ -1,10 +1,20 @@
 package com.stuty.studymatching.KAKAO;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.AuthService;
 import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
 import com.kakao.auth.network.response.AccessTokenInfoResponse;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
@@ -14,16 +24,25 @@ import com.kakao.usermgmt.response.model.Profile;
 import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
+import com.stuty.studymatching.RTROFIT.FirebaseJwt;
+import com.stuty.studymatching.RTROFIT.RetrofitClient;
+import com.stuty.studymatching.RTROFIT.ServiceApi;
 import com.stuty.studymatching.SERVER.DatabaseCheck;
 import com.stuty.studymatching.RTROFIT.CheckData;
 
 import java.io.IOException;
 
+import io.reactivex.disposables.Disposable;
+import retrofit2.Retrofit;
+
 public class SessionCallback implements ISessionCallback {
     DatabaseCheck dbCheck;
+    private ServiceApi service;
+    private FirebaseAuth mAuth;
     KakaoLoginListener listener;
 
-    public SessionCallback(DatabaseCheck dbCheck) {
+    public SessionCallback(DatabaseCheck dbCheck, ServiceApi service) {
+        this.service = service;
         this.dbCheck = dbCheck;
     }
 
@@ -50,6 +69,7 @@ public class SessionCallback implements ISessionCallback {
                     public void onSessionClosed(ErrorResult errorResult) {
                         Log.e("KAKAO_API", "세션이 닫혀 있음: " + errorResult);
                     }
+
                     @Override
                     public void onFailure(ErrorResult errorResult) {
                         Log.e("KAKAO_API", "토큰 정보 요청 실패: " + errorResult);
@@ -74,8 +94,6 @@ public class SessionCallback implements ISessionCallback {
                     @Override
                     public void onFailure(ErrorResult errorResult) {
                         Log.e("KAKAO_API", "사용자 정보 요청 실패: " + errorResult);
-
-
                     }
 
                     @Override
@@ -106,8 +124,31 @@ public class SessionCallback implements ISessionCallback {
                                 Log.d("KAKAO_API", "nickname: " + profile.getNickname());
                                 Log.d("KAKAO_API", "profile image: " + profile.getProfileImageUrl());
                                 Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
-                                dbCheck.startCheck(new CheckData("kakao",kakaoAccount.getEmail()),"kakao",kakaoAccount.getEmail(),profile.getNickname(),null);
-                                listener.success();
+                                Log.d("KAKAO_API", "token info: " + Session.getCurrentSession().getTokenInfo() + "");
+                                String accessToken = Session.getCurrentSession().getTokenInfo().getAccessToken();
+                                dbCheck.getFirebaseJwt(new FirebaseJwt(accessToken)).continueWithTask(new Continuation<String, Task<AuthResult>>() {
+                                    @Override
+                                    public Task<AuthResult> then(@NonNull Task<String> task) throws Exception {
+                                        String firebaseToken = task.getResult();
+                                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                                        return auth.signInWithCustomToken(firebaseToken);
+                                    }
+                                }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            mAuth = FirebaseAuth.getInstance();
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            dbCheck.startCheck(new CheckData("kakao", user.getUid()), "kakao", user.getUid(), profile.getNickname());
+                                            listener.success();
+                                        } else {
+                                            Log.d("failed", "Failed to create a Firebase user.");
+                                            if (task.getException() != null) {
+
+                                            }
+                                        }
+                                    }
+                                });
                             } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
                                 // 동의 요청 후 프로필 정보 획득 가능
 
@@ -121,11 +162,14 @@ public class SessionCallback implements ISessionCallback {
                     }
                 });
     }
+
     public interface KakaoLoginListener {
         void success();
     }
+
     public void setListner(KakaoLoginListener listener) {
         this.listener = listener;
     }
-}
 
+
+}

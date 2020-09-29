@@ -10,4 +10,7 @@ public interface ServiceApi {
 
     @POST("/user/check")
     Call<CheckResponse> userCheck(@Body CheckData data);
+
+    @POST("/verifyToken")
+    Call<JwtResponse> getFirebaseJwt(@Body FirebaseJwt data);
 }

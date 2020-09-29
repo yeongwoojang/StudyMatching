@@ -25,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -41,6 +42,10 @@ import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
 import java.util.Arrays;
+import java.util.HashMap;
+
+import io.reactivex.disposables.Disposable;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements SessionCallback.KakaoLoginListener {
 
@@ -69,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         service = RetrofitClient.getClient().create(ServiceApi.class);
         dbCheck = new DatabaseCheck(service);
 
-        sessionCallback = new SessionCallback(dbCheck);
+        sessionCallback = new SessionCallback(dbCheck,service);
 
 
         google_sign_in_button = (Button) findViewById(R.id.google_sign_in_button);
@@ -146,7 +151,8 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            dbCheck.startCheck(new CheckData("google",user.getEmail()),"google",user.getEmail(),user.getDisplayName(),null);
+
+                            dbCheck.startCheck(new CheckData("google",user.getUid()),"google",user.getUid(),user.getDisplayName());
                             Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(toMainPageIntent);
 
@@ -187,8 +193,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Log.d("facebook",user.getEmail());
-                            dbCheck.startCheck(new CheckData("facebook",user.getEmail()),"facebook",user.getEmail(),user.getDisplayName(),null);
+                            dbCheck.startCheck(new CheckData("facebook",user.getUid()),"facebook",user.getUid(),user.getDisplayName());
                             Intent toMainPageIntent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(toMainPageIntent);
                             finish();
@@ -198,6 +203,9 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                     }
                 });
     }
+
+
+
 
     @Override
     public void success() {
