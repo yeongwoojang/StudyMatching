@@ -50,10 +50,8 @@ public class CreatePage extends Fragment {
         String content = contentEdt.getText().toString();
         if(content!=""){
             postingBt.setTextColor(getActivity().getResources().getColor(R.color.black,null));
-            postingBt.setEnabled(false);
         }else{
             postingBt.setTextColor(getActivity().getResources().getColor(R.color.gray200,null));
-            postingBt.setEnabled(true);
 
         }
 

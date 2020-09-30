@@ -7,12 +7,12 @@ public class CheckData {
     @SerializedName("signInMethod")
     String signInMethod;
 
-    @SerializedName("userEmail")
-    String userEmail;
+    @SerializedName("uid")
+    String uid;
 
 
-    public CheckData(String signInMethod, String userEmail) {
-        this.userEmail = userEmail;
+    public CheckData(String signInMethod, String uid) {
         this.signInMethod = signInMethod;
+        this.uid = uid;
     }
 }

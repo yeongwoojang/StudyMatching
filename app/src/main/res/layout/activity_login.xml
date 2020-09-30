@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="18dp"
                 android:fontFamily="@font/bm_dohyeon_ttf"
-                android:text="페이스북 계정으로 로그인"
+                android:text="페이스북계정으로 로그인"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 android:layout_marginBottom="8dp"
@@ -104,7 +104,7 @@
                 android:layout_alignParentBottom="true"
                 android:text="@string/signin_kakao"
                 android:background="@drawable/btn_signin_kakao"
-                android:textColor="@color/black">
+                android:textColor="@color/white">
             </Button>
         </LinearLayout>
     </RelativeLayout>

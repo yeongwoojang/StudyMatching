@@ -1,44 +1,21 @@
 package com.stuty.studymatching.ACTIVITY;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.FRAGMENT.CreatePage;
 import com.stuty.studymatching.R;
 
-import java.security.MessageDigest;
+public class MainTabActivity extends AppCompatActivity {
 
-
-public class MainActivity extends AppCompatActivity {
-
-    private Context mContext = null;
+    private TabLayout tabLayout;
 
     private long backKeyPressed = 0;
     private Toast backBtClickToast;
-
-    private DrawerLayout mDrawerLayout;
-    private ImageButton menuBt;
-    private TabLayout tabLayout;
 
     private final int FRAGMENT1 = 0;
     private final int FRAGMENT2 = 1;
@@ -54,47 +31,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_tab);
 
-        mContext = this;
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-
-        actionBar.setDisplayShowTitleEnabled(false);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout)findViewById(R.id.tabs);
-
-        menuBt = (ImageButton) findViewById(R.id.menu_button);
-
-        menuBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDrawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
-
-                if (id == R.id.setting) {
-
-                } else if (id == R.id.logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    finish();
-                }
-                return true;
-            }
-        });
 
         for(int i=0;i<tabIcons.length;i++){
             tabLayout.addTab(tabLayout.newTab());
@@ -137,20 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressed + 2000) {
@@ -187,5 +113,4 @@ public class MainActivity extends AppCompatActivity {
 //                transaction.commit();
         }
     }
-
 }

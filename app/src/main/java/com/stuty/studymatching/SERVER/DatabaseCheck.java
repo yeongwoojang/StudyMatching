@@ -1,11 +1,18 @@
 package com.stuty.studymatching.SERVER;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.stuty.studymatching.RTROFIT.CheckData;
 import com.stuty.studymatching.RTROFIT.CheckResponse;
+import com.stuty.studymatching.RTROFIT.FirebaseJwt;
 import com.stuty.studymatching.RTROFIT.JoinData;
 import com.stuty.studymatching.RTROFIT.JoinResponse;
+import com.stuty.studymatching.RTROFIT.JwtResponse;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
@@ -16,6 +23,7 @@ import retrofit2.Response;
 public class DatabaseCheck {
 
     private ServiceApi service;
+
 
     public DatabaseCheck(ServiceApi service) {
         this.service = service;
@@ -39,7 +47,7 @@ public class DatabaseCheck {
     }
 
 
-     public void startCheck(CheckData data,final String signInMethod, final String userEmail, final String userName,final String userPassword) {
+     public void startCheck(CheckData data,final String signInMethod, final String userUid, final String userName) {
         service.userCheck(data).enqueue(new Callback<CheckResponse>() {
             @Override
             public void onResponse(Call<CheckResponse> call, Response<CheckResponse> response) {
@@ -47,7 +55,7 @@ public class DatabaseCheck {
 
                 Log.d("result",result.getMessage()+"");
                 if(result.getMessage() ==true){
-                    startJoin(new JoinData(signInMethod,userEmail,userName,userPassword));
+                    startJoin(new JoinData(signInMethod,userUid,userName));
                 }
             }
 
@@ -56,5 +64,34 @@ public class DatabaseCheck {
                 Log.e("체크 에러 발생", t.getMessage());
             }
         });
+    }
+
+    public Task<String> getFirebaseJwt(FirebaseJwt data) {
+        final TaskCompletionSource<String> source = new TaskCompletionSource<>();
+
+        service.getFirebaseJwt(data).enqueue(new Callback<JwtResponse>() {
+            @Override
+            public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
+                JwtResponse result = response.body();
+                if(result.getFirebase_token()!=null){
+                    Log.d("firebaseToken",result.getFirebase_token());
+                    source.setResult(result.getFirebase_token());
+//                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                   String firebaseToken = result.getFirebase_token();
+//                    mAuth.signInWithCustomToken(firebaseToken);
+//                    FirebaseUser user = mAuth.getCurrentUser();
+//                    startCheck(new CheckData("kakao",user.getUid()),"kakao",user.getUid(),user.getDisplayName());
+                }else{
+                    Log.d("ERROR","get Custom Token Error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JwtResponse> call, Throwable t) {
+
+            }
+        });
+        return source.getTask();
+
     }
 }
