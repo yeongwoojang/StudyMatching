@@ -14,16 +14,21 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.R;
 
 public class CreatePage extends Fragment {
 
-    EditText contentEdt;
-    Button postingBt;
-    ImageButton clostBt;
+    private EditText contentEdt;
+    private Button postingBt;
+    private ImageButton clostBt;
 
-    public CreatePage newInstance(){return new CreatePage();}
+    public CreatePage newInstance() {
+        return new CreatePage();
+    }
 
     @Nullable
     @Override
@@ -44,19 +49,28 @@ public class CreatePage extends Fragment {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-//        키보드를 숨기게 하는 코드
-//        InputMethodManager immhide = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-//        immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
         String content = contentEdt.getText().toString();
-        if(content!=""){
-            postingBt.setTextColor(getActivity().getResources().getColor(R.color.black,null));
-        }else{
-            postingBt.setTextColor(getActivity().getResources().getColor(R.color.gray200,null));
+        if (content != "") {
+            postingBt.setTextColor(getActivity().getResources().getColor(R.color.black, null));
+        } else {
+            postingBt.setTextColor(getActivity().getResources().getColor(R.color.gray200, null));
 
         }
 
-
-
-
+        clostBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //키보드를 숨기게 하는 코드
+                InputMethodManager immhide = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                MainPage mainPage = new MainPage().newInstance();
+                transaction.replace(R.id.main_container, mainPage);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
+            }
+        });
     }
+
 }

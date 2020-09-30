@@ -1,85 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <View
+        android:id="@+id/view_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <View
-            android:id="@+id/view_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="2dp">
-        </View>
+        android:layout_height="2dp"></View>
 
-        <androidx.appcompat.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/amber300">
+
+        <ImageButton
+            android:id="@+id/close_bt"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/amber300"
-            >
-            <ImageButton
-                android:id="@+id/close_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_close_24"
-                android:background="@color/transparent"
-                ></ImageButton>
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:text="게시물 만들기"
-                android:fontFamily="@font/bm_jua_ttf"
-                android:textSize="25dp"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-            <Button
-                android:id="@+id/posting_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray500"
-                android:text="게시"
-                android:layout_gravity ="right"
-                android:fontFamily="@font/bm_jua_ttf"
-                android:background="@color/transparent"
-                ></Button>
+            android:background="@color/transparent"
+            android:src="@drawable/baseline_close_24"></ImageButton>
 
-        </androidx.appcompat.widget.Toolbar>
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="유저이름"
-                android:fontFamily="@font/bm_dohyeon_ttf"
-                android:textColor="@color/black"
-                ></TextView>
-            <EditText
-                android:id="@+id/content_edt"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:hint="내용을 입력하세요"
-                android:fontFamily="@font/bm_dohyeon_ttf"
-                android:gravity="top"
-                android:focusable="true"
-                android:inputType="textMultiLine"
-                >
-                <requestFocus />
-            </EditText>
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:fontFamily="@font/bm_jua_ttf"
+            android:text="게시물 만들기"
+            android:textColor="@color/black"
+            android:textSize="25dp" />
 
-    </RelativeLayout>
-</androidx.drawerlayout.widget.DrawerLayout>
+        <Button
+            android:id="@+id/posting_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            android:fontFamily="@font/bm_jua_ttf"
+            android:text="게시"
+            android:textColor="@color/gray500"></Button>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bm_dohyeon_ttf"
+            android:text="유저이름"
+            android:textColor="@color/black"></TextView>
+        <EditText
+            android:id="@+id/content_edt"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:focusable="true"
+            android:fontFamily="@font/bm_dohyeon_ttf"
+            android:gravity="top"
+            android:hint="내용을 입력하세요"
+            android:inputType="textMultiLine">
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+</RelativeLayout>

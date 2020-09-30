@@ -3,17 +3,31 @@ package com.stuty.studymatching.ACTIVITY;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.stuty.studymatching.FRAGMENT.CreatePage;
 import com.stuty.studymatching.FRAGMENT.MainPage;
 import com.stuty.studymatching.R;
 
-public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener{
+public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener {
 
     private TabLayout tabLayout;
+    private SlidingUpPanelLayout slidingUpPanelLayout;
+    private EditText contentEdt;
+    private Button postingBt;
+    private ImageButton closeBt;
+
 
     private long backKeyPressed = 0;
     private Toast backBtClickToast;
@@ -34,9 +48,13 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
-        tabLayout = (TabLayout)findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
+        contentEdt = (EditText) findViewById(R.id.content_edt);
+        postingBt = (Button) findViewById(R.id.posting_bt);
+        closeBt = (ImageButton) findViewById(R.id.close_bt);
 
-        for(int i=0;i<tabIcons.length;i++){
+        for (int i = 0; i < tabIcons.length; i++) {
             tabLayout.addTab(tabLayout.newTab());
         }
 
@@ -51,12 +69,12 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
 
         //메인탭액티비티 최초 진입 시 메인화면 호출
         callFragment(FRAGMENT1);
-
+        contentEdt.requestFocus();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (Integer.parseInt(String.valueOf(tab.getTag()))){
+                switch (Integer.parseInt(String.valueOf(tab.getTag()))) {
                     case FRAGMENT1:
                         // '버튼1' 클릭 시 '프래그먼트1' 호출
                         callFragment(FRAGMENT1);
@@ -67,7 +85,14 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                         callFragment(FRAGMENT2);
                         break;
                     case FRAGMENT3:
-                        callFragment(FRAGMENT3);
+                        //키보드 보이게 하는 부분
+                        InputMethodManager keyBoardManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyBoardManager.showSoftInput(contentEdt, InputMethodManager.SHOW_IMPLICIT);
+//                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        Display display = getWindowManager().getDefaultDisplay();
+//                        Point size = new Point();
+//                        display.getSize(size);
+                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                         break;
                 }
             }
@@ -78,7 +103,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                switch (Integer.parseInt(String.valueOf(tab.getTag()))){
+                switch (Integer.parseInt(String.valueOf(tab.getTag()))) {
                     case FRAGMENT1:
                         // '버튼1' 클릭 시 '프래그먼트1' 호출
                         callFragment(FRAGMENT1);
@@ -88,13 +113,51 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                         callFragment(FRAGMENT2);
                         break;
                     case FRAGMENT3:
-                        callFragment(FRAGMENT3);
+                        //키보드 보이게 하는 부분
+                        InputMethodManager keyBoardManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        keyBoardManager.showSoftInput(contentEdt, InputMethodManager.SHOW_IMPLICIT);
+//                        keyBoardManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        Display display = getWindowManager().getDefaultDisplay();
+//                        Point size = new Point();
+//                        display.getSize(size);
+                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                         break;
                 }
 
             }
         });
+        slidingUpPanelLayout.setPanelHeight(0);
+
+        slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if ((slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED
+                        || slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+                } else {
+
+                }
+
+            }
+        });
+
+        closeBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contentEdt.setText("");
+                //키보드를 숨기게 하는 코드
+                InputMethodManager keyBoardManager = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+                keyBoardManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+//                immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                slidingUpPanelLayout.setPanelHeight(0);
+                slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
     }
+
     @Override
     public void onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressed + 2000) {
