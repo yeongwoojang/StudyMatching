@@ -8,9 +8,10 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.stuty.studymatching.FRAGMENT.CreatePage;
+import com.stuty.studymatching.FRAGMENT.MainPage;
 import com.stuty.studymatching.R;
 
-public class MainTabActivity extends AppCompatActivity {
+public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener{
 
     private TabLayout tabLayout;
 
@@ -48,6 +49,10 @@ public class MainTabActivity extends AppCompatActivity {
         tabLayout.getTabAt(FRAGMENT3).setTag(FRAGMENT3);
         tabLayout.getTabAt(FRAGMENT3).setIcon(tabIcons[2]);
 
+        //메인탭액티비티 최초 진입 시 메인화면 호출
+        callFragment(FRAGMENT1);
+
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -63,16 +68,29 @@ public class MainTabActivity extends AppCompatActivity {
                         break;
                     case FRAGMENT3:
                         callFragment(FRAGMENT3);
+                        break;
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                switch (Integer.parseInt(String.valueOf(tab.getTag()))){
+                    case FRAGMENT1:
+                        // '버튼1' 클릭 시 '프래그먼트1' 호출
+                        callFragment(FRAGMENT1);
+                        break;
+                    case FRAGMENT2:
+                        // '버튼2' 클릭 시 '프래그먼트2' 호출
+                        callFragment(FRAGMENT2);
+                        break;
+                    case FRAGMENT3:
+                        callFragment(FRAGMENT3);
+                        break;
+                }
 
             }
         });
@@ -100,6 +118,10 @@ public class MainTabActivity extends AppCompatActivity {
             default:
             case FRAGMENT1:
                 // '프래그먼트1' 호출
+                MainPage mainPage = new MainPage().newInstance();
+                transaction.replace(R.id.main_container, mainPage);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
                 break;
             case FRAGMENT2:
                 // '프래그먼트2' 호출
@@ -112,5 +134,10 @@ public class MainTabActivity extends AppCompatActivity {
                 transaction.commitAllowingStateLoss();
 //                transaction.commit();
         }
+    }
+
+    @Override
+    public void logout() {
+        finish();
     }
 }
