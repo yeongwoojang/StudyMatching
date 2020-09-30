@@ -20,5 +20,6 @@
         app:tabGravity="fill"
         app:tabMode="fixed"
         android:layout_alignParentBottom="true"
-        app:tabSelectedTextColor="@color/colorAccent" />
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabBackground="@color/amber300"/>
 </RelativeLayout>

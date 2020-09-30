@@ -23,9 +23,9 @@ public class MainTabActivity extends AppCompatActivity {
 
 
     private int[] tabIcons = {
-            R.drawable.baseline_home_24,
+            R.drawable.baseline_home_24_black,
             R.drawable.baseline_search_24,
-            R.drawable.baseline_create_24
+            R.drawable.baseline_create_24,
     };
 
     @Override
@@ -55,14 +55,25 @@ public class MainTabActivity extends AppCompatActivity {
                     case FRAGMENT1:
                         // '버튼1' 클릭 시 '프래그먼트1' 호출
                         callFragment(FRAGMENT1);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24_black);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.baseline_create_24);
                         break;
 
                     case FRAGMENT2:
                         // '버튼2' 클릭 시 '프래그먼트2' 호출
                         callFragment(FRAGMENT2);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24_black);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.baseline_create_24);
+
                         break;
                     case FRAGMENT3:
                         callFragment(FRAGMENT3);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.baseline_create_24_black);
+                        break;
                 }
             }
 

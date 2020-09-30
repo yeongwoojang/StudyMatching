@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         kakao_sign_in_button = (Button)findViewById(R.id.kakao_sign_in_button);
 
         if (mAuth.getCurrentUser() != null) {
-            Intent toMainPageIntent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent toMainPageIntent = new Intent(getApplicationContext(), MainTabActivity.class);
             startActivity(toMainPageIntent);
         }
 
