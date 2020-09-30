@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Log.d("facebook",user.getEmail());
+                            Log.d("facebook",user.getPhoneNumber());
                             dbCheck.startCheck(new CheckData("facebook",user.getEmail()),"facebook",user.getEmail(),user.getDisplayName(),null);
                             Intent toMainPageIntent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(toMainPageIntent);
