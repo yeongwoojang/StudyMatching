@@ -2,36 +2,22 @@ package com.stuty.studymatching.FRAGMENT;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.stuty.studymatching.ACTIVITY.MainTabActivity;
-import com.stuty.studymatching.FRAGMENT.CreatePage;
 import com.stuty.studymatching.R;
-
-import java.security.MessageDigest;
 
 
 public class MainPage extends Fragment {
@@ -58,6 +44,17 @@ public class MainPage extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_mainpage, container, false);
+        mDrawerLayout = rootView.findViewById(R.id.drawer_layout);
+        menuBt = rootView.findViewById(R.id.menu_button);
+        navigationView = rootView.findViewById(R.id.nav_view);
+
+        return rootView;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -82,22 +79,11 @@ public class MainPage extends Fragment {
 
                 } else if (id == R.id.logout) {
                     FirebaseAuth.getInstance().signOut();
-                    logoutListener.logout();
+                    logoutListener.successLogout();
                 }
                 return true;
             }
         });
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_mainpage, container, false);
-        mDrawerLayout = rootView.findViewById(R.id.drawer_layout);
-        menuBt = rootView.findViewById(R.id.menu_button);
-        navigationView = rootView.findViewById(R.id.nav_view);
-
-        return rootView;
     }
 
 
@@ -113,7 +99,7 @@ public class MainPage extends Fragment {
 
 
     public interface LogoutListener{
-        void logout();
+        void successLogout();
     }
 
 }
