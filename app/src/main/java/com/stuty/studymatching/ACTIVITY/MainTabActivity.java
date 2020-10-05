@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -12,6 +14,8 @@ import com.stuty.studymatching.FRAGMENT.MainPage;
 import com.stuty.studymatching.R;
 
 public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener{
+
+    private Animation animation;
 
     private TabLayout tabLayout;
 
@@ -24,9 +28,9 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
 
 
     private int[] tabIcons = {
-            R.drawable.baseline_home_24,
+            R.drawable.baseline_home_24_black,
             R.drawable.baseline_search_24,
-            R.drawable.baseline_create_24
+            R.drawable.ic_baseline_person_24
     };
 
     @Override
@@ -34,7 +38,10 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.scale);
+
         tabLayout = (TabLayout)findViewById(R.id.tabs);
+
 
         for(int i=0;i<tabIcons.length;i++){
             tabLayout.addTab(tabLayout.newTab());
@@ -60,14 +67,23 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                     case FRAGMENT1:
                         // '버튼1' 클릭 시 '프래그먼트1' 호출
                         callFragment(FRAGMENT1);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24_black);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.ic_baseline_person_24);
                         break;
 
                     case FRAGMENT2:
                         // '버튼2' 클릭 시 '프래그먼트2' 호출
                         callFragment(FRAGMENT2);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24_black);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.ic_baseline_person_24);
                         break;
                     case FRAGMENT3:
                         callFragment(FRAGMENT3);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.ic_baseline_person_24_black);
                         break;
                 }
             }
