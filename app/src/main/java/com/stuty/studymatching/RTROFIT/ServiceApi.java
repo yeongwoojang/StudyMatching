@@ -13,4 +13,7 @@ public interface ServiceApi {
 
     @POST("/verifyToken")
     Call<JwtResponse> getFirebaseJwt(@Body FirebaseJwt data);
+
+    @POST("/daum")
+    Call<DaumResponse> getDaum(@Body DaumData data);
 }
