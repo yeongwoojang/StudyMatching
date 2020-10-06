@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FRAGMENT.MainPage"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_menu_24"
                 android:background="@color/transparent"
-                ></ImageButton>
+                />
             <TextView
                 android:id="@+id/toolbar_title"
                 android:text="Study Matching"
@@ -40,7 +40,14 @@
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"/>
+            <ImageButton
+                android:id="@+id/create_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_create_24_black"
+                android:background="@color/transparent"
+                android:layout_gravity="right"/>
         </androidx.appcompat.widget.Toolbar>
     </RelativeLayout>
 

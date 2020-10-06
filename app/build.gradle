@@ -62,8 +62,5 @@ dependencies {
 
     implementation 'org.conscrypt:conscrypt-android:2.5.0'
 
-    //bubbletab
-    implementation 'com.github.florent37:bubbletab:1.0.0'
-
 
 }
