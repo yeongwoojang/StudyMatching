@@ -53,14 +53,23 @@
             android:layout_margin="16dp"
             android:orientation="vertical"
             >
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/title_edt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="유저이름"
+                android:hint="제목을 입력하세요"
+                android:padding="8dp"
                 android:fontFamily="@font/bm_dohyeon_ttf"
-                android:textColor="@color/black"
-                ></TextView>
+                android:gravity="top"
+                android:singleLine="true"
+
+                android:focusable="true"
+                android:maxLength="50"
+                android:background="@drawable/form_edit_box"
+                android:layout_marginBottom="5dp"
+                >
+                <requestFocus />
+            </EditText>
             <EditText
                 android:id="@+id/content_edt"
                 android:layout_width="match_parent"

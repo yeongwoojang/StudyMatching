@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
+    android:fillViewport="true"
     >
-        <View
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+    <View
             android:id="@+id/view_toolbar"
             android:layout_width="match_parent"
             android:layout_height="2dp">
@@ -35,17 +38,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
             <Button
-                android:id="@+id/next_bt"
+                android:id="@+id/posting_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="다음"
+                android:textColor="@color/gray500"
+                android:text="게시"
                 android:layout_gravity ="right"
                 android:fontFamily="@font/bm_jua_ttf"
                 android:background="@color/transparent"
                 ></Button>
         </androidx.appcompat.widget.Toolbar>
         <LinearLayout
+            android:id="@+id/first_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
@@ -58,7 +62,7 @@
             </androidx.recyclerview.widget.RecyclerView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/form_cardview"
                 >
@@ -72,7 +76,7 @@
                         android:id="@+id/type_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="5dp"
                         android:fontFamily="@font/bm_hanna_pro"
                         android:textColor="@color/black"
                         android:text="분야 : "
@@ -82,8 +86,60 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="테스트"
+                        android:visibility="gone"
                         ></Button>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/second_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        >
+        <EditText
+            android:id="@+id/title_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목을 입력하세요"
+            android:padding="8dp"
+            android:fontFamily="@font/bm_dohyeon_ttf"
+            android:gravity="top"
+            android:singleLine="true"
+
+            android:focusable="true"
+            android:maxLength="50"
+            android:background="@drawable/form_edit_box"
+            android:layout_marginBottom="5dp"
+            >
+            <requestFocus />
+        </EditText>
+        <EditText
+            android:id="@+id/content_edt"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="내용을 입력하세요"
+            android:padding="8dp"
+            android:fontFamily="@font/bm_dohyeon_ttf"
+            android:gravity="top"
+            android:focusable="true"
+            android:inputType="textMultiLine"
+            android:maxLength="150"
+            android:background="@drawable/form_edit_box"
+            >
+            <requestFocus />
+        </EditText>
+        <TextView
+            android:id="@+id/edt_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue600"
+            android:gravity="right"
+            android:text="0 / 150 "
+            ></TextView>
+    </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

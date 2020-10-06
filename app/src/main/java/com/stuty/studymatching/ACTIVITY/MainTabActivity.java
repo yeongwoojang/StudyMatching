@@ -21,8 +21,7 @@ import com.stuty.studymatching.R;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
-public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener
-        , SecondCreatePage.SecondPageListener {
+public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener {
 
 
     private TabLayout tabLayout;
@@ -59,6 +58,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
+        slidingUpPanelLayout.setTouchEnabled(false);
         postingBt = (Button) findViewById(R.id.posting_bt);
         closeBt = (ImageButton) findViewById(R.id.close_bt);
         for (int i = 0; i < tabIcons.length; i++) {
@@ -197,11 +197,11 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         finish();
     }
 
-    @Override
-    public void nextBtClick() {
-        callFragment(FRAGMENT4);
-
-    }
+//    @Override
+//    public void nextBtClick() {
+//        callFragment(FRAGMENT4);
+//
+//    }
 
     @Override
     public void closeBtClick() {
@@ -218,18 +218,18 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         //Drawer를 닫으면서 CreatePage를 초기화면으로 돌려놓는다.
         slidingUpPanelLayout.setPanelHeight(0);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-        callFragment(FRAGMENT3);
+//        callFragment(FRAGMENT3);
     }
 
-    @Override
-    public void prevBtClick() {
+//    @Override
+//    public void prevBtClick() {
 //        callFragment(FRAGMENT3);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        getSupportFragmentManager().popBackStack();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        getSupportFragmentManager().popBackStack();
 //        FirstCreatePage firstCreatePage = new FirstCreatePage().newInstance();
 //        transaction.replace(R.id.create_page_container,firstCreatePage);
 //        transaction.commitAllowingStateLoss();
-    }
+//    }
 
 
 }
