@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".FRAGMENT.MyPageActivity"
     android:orientation="vertical"
-    android:id="@+id/mypage_container"
-    android:background="@color/amber50">
+    android:id="@+id/mypage_container">
 
     <androidx.appcompat.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,10 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/baselines_border_lines"
+            android:background="@color/gray300"
+            android:elevation="10dp"
             >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,6 +58,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ic_baseline_tag_faces_24"
+                android:elevation="10dp"
                 />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -146,13 +145,78 @@
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="220dp"
             >
-            <GridView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:orientation="horizontal"
+                >
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/baseline_notice_24"
+                    android:src="@color/transparent"
+                    android:elevation="10dp"
+                    />
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/baseline_location_on_24"
+                    android:src="@color/transparent"
+                    android:elevation="10dp"
+                    />
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/baseline_qna_24"
+                    android:src="@color/transparent"
+                    android:elevation="10dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="120dp"
+                >
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/baseline_logout_24"
+                    android:src="@color/transparent"
+                    android:elevation="10dp"/>
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/baseline_notice_24"
+                    android:src="@color/transparent"
+                    android:elevation="10dp"/>
+
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/baseline_notice_24"
+                    android:src="@color/transparent"
+                    android:elevation="10dp"/>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="내 스터디 현황"
+            android:textSize="20dp"
+            android:fontFamily="@font/bm_hanna_pro"
+            android:textColor="@color/black"
+            />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
 </LinearLayout>

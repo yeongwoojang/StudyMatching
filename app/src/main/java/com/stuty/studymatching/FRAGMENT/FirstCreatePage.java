@@ -75,6 +75,5 @@ public class FirstCreatePage extends Fragment {
     public interface FirstPageListener {
         void nextBtClick();
         void closeBtClick();
-
     }
 }

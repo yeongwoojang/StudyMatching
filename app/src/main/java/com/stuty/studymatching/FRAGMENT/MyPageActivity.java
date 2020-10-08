@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -20,27 +21,22 @@ import com.stuty.studymatching.R;
 
 public class MyPageActivity extends Fragment {
 
+
     private ImageButton myFace,notiBtn;
     private CardView cardView;
     private ListView myPage_menu;
+    private GridView menu_grid;
 
-    private MyPageListener myPageListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        myPageListener = (MyPageListener) context;
     }
 
     public MyPageActivity newInstance() {
         return new MyPageActivity();
     }
 
-    public interface MyPageListener {
-        void nextBtClick();
-        void closeBtClick();
-
-    }
 
     @Nullable
     @Override
@@ -49,7 +45,6 @@ public class MyPageActivity extends Fragment {
         myFace = view.findViewById(R.id.myface);
         notiBtn = view.findViewById(R.id.noti_btn);
         cardView = view.findViewById(R.id.cardview);
-        myPage_menu = view.findViewById(R.id.mypage_menu);
         return view;
     }
 
