@@ -1,145 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:fillViewport="true">
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/white">
-    <View
+        android:background="@color/orage50">
+
+        <View
             android:id="@+id/view_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="2dp">
-        </View>
-        <androidx.appcompat.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="2dp"></View>
+
+        <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/amber300"
-            >
+            android:background="@color/amber300">
+
             <ImageButton
                 android:id="@+id/close_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_close_24"
                 android:background="@color/transparent"
-                ></ImageButton>
+                android:src="@drawable/baseline_close_24"></ImageButton>
+
             <TextView
                 android:id="@+id/toolbar_title"
-                android:text="게시물 만들기"
-                android:fontFamily="@font/bm_jua_ttf"
-                android:textSize="25dp"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:fontFamily="@font/bm_jua_ttf"
+                android:text="게시물 만들기"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
             <Button
                 android:id="@+id/posting_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray500"
-                android:text="게시"
-                android:layout_gravity ="right"
-                android:fontFamily="@font/bm_jua_ttf"
+                android:layout_gravity="right"
                 android:background="@color/transparent"
-                ></Button>
+                android:fontFamily="@font/bm_jua_ttf"
+                android:text="게시"
+                android:textColor="@color/gray500"></Button>
         </androidx.appcompat.widget.Toolbar>
+
         <LinearLayout
             android:id="@+id/first_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </androidx.recyclerview.widget.RecyclerView>
-            <androidx.cardview.widget.CardView
+                android:layout_height="wrap_content"
+                ></androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/form_recruit_bt"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                >
+                <Button
+                    android:id="@+id/recruit_Bt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/black"
+                    android:text="모집 조건"
+                    android:textSize="11dp"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    ></Button>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
                 android:background="@drawable/form_cardview"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/part_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:background="@drawable/form_cardview"
+                    android:fontFamily="@font/bm_hanna_pro"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="PART"
+                    android:textSize="11dp"
+                    android:textColor="@color/black">
+                </TextView>
+                <TextView
+                    android:id="@+id/recruit_peroid_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/form_cardview"
+                    android:fontFamily="@font/bm_hanna_pro"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textSize="11dp"
+                    android:text="모집기간 : 7일"
+                    android:textColor="@color/black">
+                </TextView>
+                <TextView
+                    android:id="@+id/recruit_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/form_cardview"
+                    android:fontFamily="@font/bm_hanna_pro"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textSize="11dp"
+                    android:text="모집인원 : 4명"
+                    android:textColor="@color/black">
+                </TextView>
 
-                    <TextView
-                        android:id="@+id/type_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:fontFamily="@font/bm_hanna_pro"
-                        android:textColor="@color/black"
-                        android:text="분야 : "
-                        ></TextView>
-                    <Button
-                        android:id="@+id/test"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="테스트"
-                        android:visibility="gone"
-                        ></Button>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="테스트"
+                    android:visibility="gone"></Button>
+            </LinearLayout>
         </LinearLayout>
-    <LinearLayout
-        android:id="@+id/second_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/first_layout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical"
-        >
-        <EditText
-            android:id="@+id/title_edt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="제목을 입력하세요"
-            android:padding="8dp"
-            android:fontFamily="@font/bm_dohyeon_ttf"
-            android:gravity="top"
-            android:singleLine="true"
 
-            android:focusable="true"
-            android:maxLength="50"
-            android:background="@drawable/form_edit_box"
-            android:layout_marginBottom="5dp"
-            >
-            <requestFocus />
-        </EditText>
-        <EditText
-            android:id="@+id/content_edt"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:hint="내용을 입력하세요"
-            android:padding="8dp"
-            android:fontFamily="@font/bm_dohyeon_ttf"
-            android:gravity="top"
-            android:focusable="true"
-            android:inputType="textMultiLine"
-            android:maxLength="150"
-            android:background="@drawable/form_edit_box"
-            >
-            <requestFocus />
-        </EditText>
-        <TextView
-            android:id="@+id/edt_length"
+        <LinearLayout
+            android:id="@+id/second_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/blue600"
-            android:gravity="right"
-            android:text="0 / 150 "
-            ></TextView>
-    </LinearLayout>
+            android:layout_below="@+id/first_layout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray200"></LinearLayout>
+
+            <EditText
+                android:id="@+id/title_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/form_edit_box"
+                android:focusable="true"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:gravity="top"
+                android:hint="제목을 입력하세요"
+                android:maxLength="50"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textSize="11dp">
+                <requestFocus />
+            </EditText>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray200"></LinearLayout>
+
+            <EditText
+                android:id="@+id/content_edt"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/form_edit_box"
+                android:fontFamily="@font/bm_dohyeon_ttf"
+                android:gravity="top"
+                android:hint="내용을 입력하세요"
+                android:inputType="textMultiLine"
+                android:maxLength="150"
+                android:padding="8dp"
+                android:textSize="11dp"></EditText>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray200"></LinearLayout>
+
+            <TextView
+                android:id="@+id/edt_length"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="0 / 150 "
+                android:textColor="@color/blue600"
+                android:textSize="7dp"></TextView>
+        </LinearLayout>
     </RelativeLayout>
 </ScrollView>

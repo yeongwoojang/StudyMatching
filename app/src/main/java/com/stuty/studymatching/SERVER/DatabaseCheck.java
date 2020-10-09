@@ -66,6 +66,8 @@ public class DatabaseCheck {
         });
     }
 
+
+
     public Task<String> getFirebaseJwt(FirebaseJwt data) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
 

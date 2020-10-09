@@ -9,5 +9,6 @@
         android:layout_height="wrap_content"
         android:background="@color/amber200"
         android:fontFamily="@font/bm_jua_ttf"
+        android:elevation="8dp"
         ></Button>
 </LinearLayout>

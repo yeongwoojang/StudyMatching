@@ -8,11 +8,16 @@
 
     <stroke
         android:width="10dp"
-        android:color="@color/amber200"
+        android:color="@color/amber500"
         ></stroke>
     <solid
-        android:color="@color/amber200"
+        android:color="@color/amber500"
         ></solid>
+
+<!--    <size-->
+<!--        android:width="400dp"-->
+<!--        android:height="50dp"-->
+<!--        ></size>-->
 
 
 </shape>

@@ -82,7 +82,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.ViewHolder> {
 
             } else {
                 typeBt.setBackgroundResource(R.color.amber200);
-                typeValue = "";
+                typeValue = "PART";
 
             }
             isBtClick = !isBtClick;

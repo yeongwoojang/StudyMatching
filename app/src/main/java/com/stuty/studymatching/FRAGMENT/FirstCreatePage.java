@@ -19,32 +19,38 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.ACTIVITY.SearchAddress;
 import com.stuty.studymatching.ADAPTER.TypeAdapter;
 import com.stuty.studymatching.R;
+import com.stuty.studymatching.RTROFIT.RetrofitClient;
+import com.stuty.studymatching.RTROFIT.ServiceApi;
+import com.stuty.studymatching.RTROFIT.UidData;
+import com.stuty.studymatching.SERVER.WriteToBoard;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FirstCreatePage extends Fragment {
+public class FirstCreatePage extends Fragment{
 
+    private FirebaseAuth mAuth;
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
-    public static final String datePicker = "DATAPICKER";
     private FirstPageListener firstPageListener;
+    private ServiceApi service;
     private Context mContext;
 
-    private TextView typeText;
-    private Button postingBt,text;
+    private TextView partText;
+    private Button postingBt,recruitBt,text;
     private ImageButton closeBt;
     private RecyclerView recyclerView;
     private EditText titleEdt,contentEdt;
-    private TextView edtLength;
+    private TextView edtLength,recruitText,recruitPeroidText;
 
 
+    String pCount,pDays;
     private LinearLayoutManager linearLayoutManager;
     private TypeAdapter typeAdapter;
     private final String[] types = {"토익","교양","프로그래밍","취업","기타"};
@@ -71,10 +77,13 @@ public class FirstCreatePage extends Fragment {
         postingBt = rootView.findViewById(R.id.posting_bt);
         text = rootView.findViewById(R.id.test);
         closeBt = rootView.findViewById(R.id.close_bt);
+        recruitBt = rootView.findViewById(R.id.recruit_Bt);
         titleEdt = rootView.findViewById(R.id.title_edt);
         contentEdt = rootView.findViewById(R.id.content_edt);
         edtLength = rootView.findViewById(R.id.edt_length);
-        typeText = rootView.findViewById(R.id.type_text);
+        partText = rootView.findViewById(R.id.part_text);
+        recruitPeroidText = rootView.findViewById(R.id.recruit_peroid_text);
+        recruitText = rootView.findViewById(R.id.recruit_text);
         recyclerView = rootView.findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         return rootView;
@@ -100,18 +109,51 @@ public class FirstCreatePage extends Fragment {
         Log.d("execute","onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
+        service = RetrofitClient.getClient().create(ServiceApi.class);
+        WriteToBoard writeToBoard = new WriteToBoard(service);
+
+
+
         //키보드 보이기
         InputMethodManager keyBoardManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        keyBoardManager.showSoftInput(contentEdt, InputMethodManager.SHOW_IMPLICIT);
+        keyBoardManager.showSoftInput(titleEdt, InputMethodManager.SHOW_IMPLICIT);
 
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         typeAdapter = new TypeAdapter(types,getActivity());
         recyclerView.setAdapter(typeAdapter);
+
         typeAdapter.setListener(new TypeAdapter.TypeAdapterListener() {
             @Override
             public void updateType(String typeValue) {
-                typeText.setText("분야 : "+typeValue);
+                partText.setText(typeValue);
+            }
+        });
+
+
+
+
+        recruitBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Recruit_CheckBox dialog = Recruit_CheckBox.newInstance();
+                dialog.setCancelable(false);
+                dialog.setListener(new Recruit_CheckBox.DialogListener() {
+                    @Override
+                    public void cencelBtClick() {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void okButtonClick(String count,String days) {
+                        pCount = count;
+                        pDays = days;
+                        recruitText.setText("모집인원 : "+pCount);
+                        recruitPeroidText.setText("모집기간 : "+pDays);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show(getActivity().getSupportFragmentManager(),dialog.TAG_EVENT_DIALOG);
             }
         });
 
@@ -158,16 +200,23 @@ public class FirstCreatePage extends Fragment {
             @Override
             public void onClick(View view) {
                 //Database에 게시글을 등록
+                if(partText.getText().toString().equals("PART")||pCount.equals("0")||pDays.equals("")){
+                    Toast.makeText(getActivity(),"조건을 정확히 선택하세요",Toast.LENGTH_SHORT).show();
+                }else{
+                    mAuth = FirebaseAuth.getInstance();
+                    writeToBoard.getUserNumber(new UidData(mAuth.getCurrentUser().getUid()),
+                            pCount,pDays,partText.getText().toString(),titleEdt.getText().toString(),contentEdt.getText().toString());
 
-                //----------------------------------------------------//
+                    //----------------------------------------------------//
 
-                //MainTabActivity에 게시 버튼이 눌렸음을 알리며 Drawer를 닫아주기를 요청한다.
-                firstPageListener.postingBtClick();
-                //키보드 숨기기
-                InputMethodManager keyBoardManager = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                keyBoardManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-                contentEdt.setText("");
-
+                    //MainTabActivity에 게시 버튼이 눌렸음을 알리며 Drawer를 닫아주기를 요청한다.
+                    firstPageListener.postingBtClick();
+                    //키보드 숨기기
+                    InputMethodManager keyBoardManager = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    keyBoardManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                    titleEdt.setText("");
+                    contentEdt.setText("");
+                }
             }
         });
 
@@ -182,20 +231,6 @@ public class FirstCreatePage extends Fragment {
             }
         });
     }
-//    public void processDatePickerResult(int year, int month, int day){
-//        String month_string = Integer.toString(month+1);
-//        String day_string = Integer.toString(day);
-//        String year_string = Integer.toString(year);
-//        String dateMessage = (month_string + "/" + day_string + "/" + year_string);
-//
-//        Toast.makeText(getActivity(),"Date: "+dateMessage,Toast.LENGTH_SHORT).show();
-//    }
-
-//    @Override
-//    public void result(int year, int month, int day) {
-//        processDatePickerResult(year,month,day);
-//    }
-
 
 
     public interface FirstPageListener {

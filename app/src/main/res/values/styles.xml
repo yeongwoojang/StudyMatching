@@ -4,8 +4,26 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/amber100</item>
         <item name="colorPrimaryDark">@color/gray600</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/black</item>
     </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!--    <style name="MySpinnerStyle" parent="Theme.AppCompat.Light.Dialog">-->
 <!--        <item name="android:textColorPrimary">@color/black</item>-->
@@ -35,5 +53,7 @@
         <!-- year-->
         <item name="android:textColorSecondaryInverse">@color/orage500</item>
     </style>
+
+
 
 </resources>
