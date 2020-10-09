@@ -15,7 +15,6 @@ import com.stuty.studymatching.FRAGMENT.FirstCreatePage;
 import com.stuty.studymatching.FRAGMENT.MainPage;
 import com.stuty.studymatching.FRAGMENT.SecondCreatePage;
 import com.stuty.studymatching.R;
-import com.stuty.studymatching.FRAGMENT.MyPageActivity;
 
 public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener
         , SecondCreatePage.SecondPageListener {
@@ -33,7 +32,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     private final int FRAGMENT2 = 1;
     private final int FRAGMENT3 = 2;
     private final int FRAGMENT4 = 3;
-    private final int FRAGMENT5 = 4;
+    private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
 
 
     private int[] tabIcons = {
@@ -46,6 +45,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
+
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
@@ -68,7 +68,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         //메인탭액티비티 최초 진입 시 메인화면 호출
         callFragment(FRAGMENT1);
         //FirstCreatePage미리 생성
-        callFragment(FRAGMENT3);
+        //callFragment(FRAGMENT3);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -113,17 +113,9 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                         callFragment(FRAGMENT2);
                         break;
                     case FRAGMENT3:
-                        //키보드 보이게 하는 부분
-//                        InputMethodManager keyBoardManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        keyBoardManager.showSoftInput(contentEdt, InputMethodManager.SHOW_IMPLICIT);
-//                        keyBoardManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-//                        Display display = getWindowManager().getDefaultDisplay();
-//                        Point size = new Point();
-//                        display.getSize(size);
                         callFragment(FRAGMENT3);
-                        break;
-                    case FRAGMENT4:
                         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                        break;
                 }
 
             }
@@ -146,18 +138,6 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
             }
         });
 
-//        closeBt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-        //키보드를 숨기게 하는 코드
-//                InputMethodManager keyBoardManager = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-//                keyBoardManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-//                immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//                callFragment(FRAGMENT3);
-//                slidingUpPanelLayout.setPanelHeight(0);
-//                slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-//            }
-//        });
     }
 
     @Override
@@ -192,24 +172,19 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                 // '프래그먼트2' 호출
                 break;
             case FRAGMENT3:
-                MyPageActivity myPage = new MyPageActivity().newInstance();
-                transaction.replace(R.id.mypage_container, myPage);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
-                break;
-            case FRAGMENT4:
                 // '프래그먼트3' 호출
                 FirstCreatePage firstCreatePage = new FirstCreatePage().newInstance();
                 transaction.replace(R.id.create_page_container, firstCreatePage);
                 transaction.addToBackStack(null);
                 transaction.commitAllowingStateLoss();
                 break;
-            case FRAGMENT5:
+            case FRAGMENT4:
                 // '프래그먼트4' 호출
                 SecondCreatePage secondCreatePage = new SecondCreatePage().newInstance();
                 transaction.replace(R.id.create_page_container, secondCreatePage);
                 transaction.addToBackStack(null);
                 transaction.commitAllowingStateLoss();
+                break;
         }
     }
 
