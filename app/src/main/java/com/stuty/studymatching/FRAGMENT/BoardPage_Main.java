@@ -19,7 +19,7 @@ public class BoardPage_Main extends Fragment {
     private TabLayout tabLayout;
 
 
-    private final String[] tabNames = {"전체", "토익", "취업", "IT", "교양", "기타"};
+    private final String[] tabNames = {"전체", "토익", "취업", "IT", "교양2", "기타"};
 
     public BoardPage_Main newInstance() {
         return new BoardPage_Main();
