@@ -90,7 +90,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="유저명 :"
+                        android:text="닉네임 :"
                         android:textSize="20dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/bm_hanna_pro"
@@ -98,7 +98,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="e-mail :"
+                        android:text="아이디 :"
                         android:textSize="20dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/bm_hanna_pro"
@@ -106,7 +106,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="나이 :"
+                        android:text="성별 :"
                         android:textSize="20dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/bm_hanna_pro"
@@ -129,32 +129,36 @@
                     android:layout_marginLeft="270dp"
                     >
                     <EditText
+                        android:id="@+id/nickNameET"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:textSize="15dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/bm_hanna_pro"
-                        android:hint="유저명"
+                        android:hint="닉네임"
                         />
                     <EditText
+                        android:id="@+id/idET"
                         android:layout_marginTop="-10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:textSize="15dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/bm_hanna_pro"
-                        android:hint="e_mail"
+                        android:hint="아이디"
                         />
                     <EditText
+                        android:id="@+id/genderET"
                         android:layout_marginTop="-10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:hint="나이"
+                        android:hint="성별"
                         android:textSize="15dp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/bm_hanna_pro"
                         />
                     <EditText
+                        android:id="@+id/majorET"
                         android:layout_marginTop="-10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
@@ -224,12 +228,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="QnA"
+                        android:text="내정보 변경"
                         android:textSize="20dp"
                         android:fontFamily="@font/bm_hanna_pro"
                         android:layout_below="@+id/qna_btn"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="33dp"
                         android:textColor="@color/black"
                         />
                 </RelativeLayout>
