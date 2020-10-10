@@ -64,7 +64,7 @@ public class DatabaseCheck {
                 Log.e("체크 에러 발생", t.getMessage());
             }
         });
-    }
+}
 
     public Task<String> getFirebaseJwt(FirebaseJwt data) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();

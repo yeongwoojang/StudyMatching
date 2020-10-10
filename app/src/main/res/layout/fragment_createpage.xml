@@ -44,7 +44,7 @@
                 android:id="@+id/posting_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray500"
+                android:textColor="@color/black"
                 android:text="게시"
                 android:layout_gravity ="right"
                 android:fontFamily="@font/bm_jua_ttf"
