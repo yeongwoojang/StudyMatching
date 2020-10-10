@@ -112,7 +112,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:textSize="11dp"
-                    android:text="모집기간 : 7일"
+                    android:text="모집기간 : 0일"
                     android:textColor="@color/black">
                 </TextView>
                 <TextView
@@ -124,7 +124,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:textSize="11dp"
-                    android:text="모집인원 : 4명"
+                    android:text="모집인원 : 0명"
                     android:textColor="@color/black">
                 </TextView>
 

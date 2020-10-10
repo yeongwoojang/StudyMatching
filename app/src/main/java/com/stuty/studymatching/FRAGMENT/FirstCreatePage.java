@@ -148,8 +148,12 @@ public class FirstCreatePage extends Fragment{
                     public void okButtonClick(String count,String days) {
                         pCount = count;
                         pDays = days;
-                        recruitText.setText("모집인원 : "+pCount);
-                        recruitPeroidText.setText("모집기간 : "+pDays);
+                        if(pCount.equals("무관")){
+                            recruitText.setText("모집인원 : "+pCount);
+                        }else{
+                            recruitText.setText("모집인원 : "+pCount+"명");
+                        }
+                        recruitPeroidText.setText("모집기간 : "+pDays+"일");
                         dialog.dismiss();
                     }
                 });
