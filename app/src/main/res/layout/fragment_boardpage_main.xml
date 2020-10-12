@@ -116,14 +116,15 @@
                     android:layout_marginTop="21dp"
                     android:background="@drawable/baseline_search_24"/>
             </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/board_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-
-            </FrameLayout>
+<!--            <FrameLayout-->
+<!--                android:id="@+id/board_container"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+<!--            </FrameLayout>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/board_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

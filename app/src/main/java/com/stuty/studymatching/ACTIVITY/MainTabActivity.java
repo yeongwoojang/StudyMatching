@@ -13,15 +13,22 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.stuty.studymatching.FRAGMENT.BoardPage_Main;
 import com.stuty.studymatching.FRAGMENT.FirstCreatePage;
 import com.stuty.studymatching.FRAGMENT.MainPage;
 import com.stuty.studymatching.FRAGMENT.SecondCreatePage;
+import com.stuty.studymatching.OBJECT.User;
 import com.stuty.studymatching.R;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
+import com.stuty.studymatching.RTROFIT.UserData;
+import com.stuty.studymatching.SERVER.UserInDatabase;
 
-public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener {
+public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener,
+        BoardPage_Main.BoardPageListener {
 
 
     private TabLayout tabLayout;
@@ -39,6 +46,8 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     private final int FRAGMENT4 = 3;
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
 
+    private UserInDatabase userInDatabase;
+    private FirebaseAuth mAuth;
     private int[] tabIcons = {
             R.drawable.baseline_home_24,
             R.drawable.baseline_search_24,
@@ -54,13 +63,16 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         setContentView(R.layout.activity_main_tab);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
+        userInDatabase = new UserInDatabase(service);
 
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
         slidingUpPanelLayout.setTouchEnabled(false);
+
         postingBt = (Button) findViewById(R.id.posting_bt);
         closeBt = (ImageButton) findViewById(R.id.close_bt);
+
         for (int i = 0; i < tabIcons.length; i++) {
             tabLayout.addTab(tabLayout.newTab());
         }
@@ -74,6 +86,9 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         tabLayout.getTabAt(FRAGMENT3).setTag(FRAGMENT3);
         tabLayout.getTabAt(FRAGMENT3).setIcon(tabIcons[2]);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userInDatabase.getUser(new UserData(user.getUid()));
         //메인탭액티비티 최초 진입 시 메인화면 호출
         callFragment(FRAGMENT1);
         //FirstCreatePage미리 생성
@@ -174,6 +189,10 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                 break;
             case FRAGMENT2:
                 // '프래그먼트2' 호출
+                BoardPage_Main boardPage_main = new BoardPage_Main().newInstance();
+                transaction.replace(R.id.main_container, boardPage_main);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
                 break;
             case FRAGMENT3:
                 // '프래그먼트3' 호출
@@ -219,6 +238,12 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         slidingUpPanelLayout.setPanelHeight(0);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 //        callFragment(FRAGMENT3);
+    }
+
+    @Override
+    public void writeBtClick() {
+        callFragment(FRAGMENT3);
+                slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
 //    @Override
