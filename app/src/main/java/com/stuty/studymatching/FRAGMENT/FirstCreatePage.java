@@ -3,9 +3,13 @@ package com.stuty.studymatching.FRAGMENT;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +35,9 @@ import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 import com.stuty.studymatching.RTROFIT.UidData;
 import com.stuty.studymatching.SERVER.WriteToBoard;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -111,7 +118,6 @@ public class FirstCreatePage extends Fragment{
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
         WriteToBoard writeToBoard = new WriteToBoard(service);
-
 
 
         //키보드 보이기
@@ -235,8 +241,6 @@ public class FirstCreatePage extends Fragment{
             }
         });
     }
-
-
     public interface FirstPageListener {
         void postingBtClick();
         void closeBtClick();

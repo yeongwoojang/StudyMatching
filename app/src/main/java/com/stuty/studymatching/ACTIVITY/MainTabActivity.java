@@ -6,7 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,6 +31,9 @@ import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 import com.stuty.studymatching.RTROFIT.UserData;
 import com.stuty.studymatching.SERVER.UserInDatabase;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener,
         BoardPage_Main.BoardPageListener {
@@ -65,13 +73,14 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         service = RetrofitClient.getClient().create(ServiceApi.class);
         userInDatabase = new UserInDatabase(service);
 
-
+        getHashKey();
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
         slidingUpPanelLayout.setTouchEnabled(false);
 
         postingBt = (Button) findViewById(R.id.posting_bt);
         closeBt = (ImageButton) findViewById(R.id.close_bt);
+
 
         for (int i = 0; i < tabIcons.length; i++) {
             tabLayout.addTab(tabLayout.newTab());
@@ -93,7 +102,6 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         callFragment(FRAGMENT1);
         //FirstCreatePage미리 생성
 //        callFragment(FRAGMENT3);
-
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -245,16 +253,26 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         callFragment(FRAGMENT3);
                 slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
+    private void getHashKey(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
 
-//    @Override
-//    public void prevBtClick() {
-//        callFragment(FRAGMENT3);
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        getSupportFragmentManager().popBackStack();
-//        FirstCreatePage firstCreatePage = new FirstCreatePage().newInstance();
-//        transaction.replace(R.id.create_page_container,firstCreatePage);
-//        transaction.commitAllowingStateLoss();
-//    }
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+    }
 
 
 }
