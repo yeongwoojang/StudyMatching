@@ -4,16 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class InfoResponse {
     @SerializedName("code")
-    private String code;
+    private int code;
 
     @SerializedName("message")
     private String message;
 
-    public String getCode() {
+    @SerializedName("jsonArray")
+    private String jsonArray;
+
+    public int getCode() {
         return code;
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public String getJsonArray() {
+        return jsonArray;
     }
 }

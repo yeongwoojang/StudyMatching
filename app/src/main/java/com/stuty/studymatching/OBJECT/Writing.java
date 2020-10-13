@@ -1,12 +1,21 @@
 package com.stuty.studymatching.OBJECT;
 
 public class Writing {
+    private String userName;
+    private String writingTime;
     private String recruitMember;
     private String recruitPeriod;
     private String part;
     private String title;
     private String content;
-    private String writer;
+
+    public String getWriter() {
+        return userName;
+    }
+
+    public String getWritingTime() {
+        return writingTime;
+    }
 
     public String getRecruitMember() {
         return recruitMember;
@@ -28,7 +37,4 @@ public class Writing {
         return content;
     }
 
-    public String getWriter() {
-        return writer;
-    }
 }

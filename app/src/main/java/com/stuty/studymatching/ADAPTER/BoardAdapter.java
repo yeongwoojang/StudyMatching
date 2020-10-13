@@ -9,13 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.stuty.studymatching.OBJECT.Writing;
 import com.stuty.studymatching.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
+    private List<Writing> boardList;
+
+    public BoardAdapter(List<Writing> boardList) {
+        this.boardList = boardList;
+    }
+
     @Override
     public int getItemCount() {
-        return 10;
+        return boardList.size();
     }
 
     @NonNull
@@ -50,12 +60,10 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
         void onBind(int position) {
             this.position = position;
-            writer.setText(position+"");
-            writingDay.setText(position+"");
-            title.setText(position+"");
-            content.setText(position+"");
-
-
+            writer.setText(boardList.get(position).getWriter());
+            writingDay.setText(boardList.get(position).getWritingTime());
+            title.setText(boardList.get(position).getTitle());
+            content.setText(boardList.get(position).getContent());
         }
     }
 }

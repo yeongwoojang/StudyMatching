@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.stuty.studymatching.FRAGMENT.BoardPage_Main;
 import com.stuty.studymatching.FRAGMENT.FirstCreatePage;
@@ -32,12 +34,16 @@ import com.stuty.studymatching.RTROFIT.ServiceApi;
 import com.stuty.studymatching.RTROFIT.UserData;
 import com.stuty.studymatching.SERVER.UserInDatabase;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener,
-        BoardPage_Main.BoardPageListener {
+        BoardPage_Main.BoardPageListener,UserInDatabase.GetUserListener {
 
+    User currentUser = new User();
 
     private TabLayout tabLayout;
     private SlidingUpPanelLayout slidingUpPanelLayout;
@@ -62,7 +68,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
             R.drawable.baseline_create_24
     };
     private ServiceApi service;
-
+    private Context mContext;
 
 
     @Override
@@ -71,9 +77,11 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         setContentView(R.layout.activity_main_tab);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
-        userInDatabase = new UserInDatabase(service);
+        mContext = this;
 
-        getHashKey();
+        userInDatabase = new UserInDatabase(service);
+        userInDatabase.setListener((UserInDatabase.GetUserListener) mContext);
+//        getHashKey();
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
         slidingUpPanelLayout.setTouchEnabled(false);
@@ -98,11 +106,10 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         userInDatabase.getUser(new UserData(user.getUid()));
+        Log.d("sequence","getUser");
+
         //메인탭액티비티 최초 진입 시 메인화면 호출
         callFragment(FRAGMENT1);
-        //FirstCreatePage미리 생성
-//        callFragment(FRAGMENT3);
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -198,6 +205,9 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
             case FRAGMENT2:
                 // '프래그먼트2' 호출
                 BoardPage_Main boardPage_main = new BoardPage_Main().newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString("address",currentUser.getAddress());
+                boardPage_main.setArguments(bundle);
                 transaction.replace(R.id.main_container, boardPage_main);
                 transaction.addToBackStack(null);
                 transaction.commitAllowingStateLoss();
@@ -224,11 +234,6 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         finish();
     }
 
-//    @Override
-//    public void nextBtClick() {
-//        callFragment(FRAGMENT4);
-//
-//    }
 
     @Override
     public void closeBtClick() {
@@ -253,7 +258,17 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         callFragment(FRAGMENT3);
                 slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
-    private void getHashKey(){
+
+    @Override
+    public void getInfo(JSONArray jsonArray) throws JSONException {
+        Log.d("sequence","getInfo");
+        Gson gson = new Gson();
+        currentUser = gson.fromJson(jsonArray.get(0).toString(),User.class);
+    }
+
+
+    //KeyHash 얻는 코드
+   /* private void getHashKey(){
         PackageInfo packageInfo = null;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
@@ -272,7 +287,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                 Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
             }
         }
-    }
+    }*/
 
 
 }

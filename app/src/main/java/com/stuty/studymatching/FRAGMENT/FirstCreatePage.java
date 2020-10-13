@@ -38,6 +38,8 @@ import com.stuty.studymatching.SERVER.WriteToBoard;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -213,9 +215,13 @@ public class FirstCreatePage extends Fragment{
                 if(partText.getText().toString().equals("PART")||pCount.equals("0")||pDays.equals("")){
                     Toast.makeText(getActivity(),"조건을 정확히 선택하세요",Toast.LENGTH_SHORT).show();
                 }else{
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Calendar calendar = Calendar.getInstance();
+                    String currentTime = dateFormat.format(calendar.getTime());
+
                     mAuth = FirebaseAuth.getInstance();
                     writeToBoard.getUserNumber(new UidData(mAuth.getCurrentUser().getUid()),
-                            pCount,pDays,partText.getText().toString(),titleEdt.getText().toString(),contentEdt.getText().toString());
+                            currentTime,pCount,pDays,partText.getText().toString(),titleEdt.getText().toString(),contentEdt.getText().toString());
 
                     //----------------------------------------------------//
 

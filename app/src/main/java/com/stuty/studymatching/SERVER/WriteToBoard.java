@@ -40,7 +40,7 @@ public class WriteToBoard {
 
     }
 
-    public void getUserNumber(UidData data,String recruitMember, String recruitPeriod ,String part, String title, String content){
+    public void getUserNumber(UidData data,String currentTime, String recruitMember, String recruitPeriod ,String part, String title, String content){
         service.checkUid(data).enqueue(new Callback<UserNumberResponse>() {
             @Override
             public void onResponse(Call<UserNumberResponse> call, Response<UserNumberResponse> response) {
@@ -49,7 +49,7 @@ public class WriteToBoard {
                 if(result.getCode()==200){
                     Log.d("result","userNumber얻어오기 성공");
                     userNumber = result.getUserNumber();
-                    write(new WriteData(userNumber,recruitMember,recruitPeriod,part,title,content));
+                    write(new WriteData(userNumber,currentTime,recruitMember,recruitPeriod,part,title,content));
                 }else{
                     Log.d("result","userNumber얻어오기 실패");
                 }
@@ -61,4 +61,5 @@ public class WriteToBoard {
             }
         });
     }
+
 }
