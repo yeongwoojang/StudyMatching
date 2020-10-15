@@ -16,6 +16,7 @@ public class WriteToBoard {
     private ServiceApi service;
     private String userNumber;
 
+
     public WriteToBoard(ServiceApi service) {
         this.service = service;
     }
@@ -61,5 +62,6 @@ public class WriteToBoard {
             }
         });
     }
+
 
 }

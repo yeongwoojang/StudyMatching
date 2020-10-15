@@ -1,7 +1,5 @@
 package com.stuty.studymatching.RTROFIT;
 
-import android.icu.text.IDNA;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -27,4 +25,10 @@ public interface ServiceApi {
 
     @POST("/user/info")
     Call<UserResponse> getUserInfo (@Body UserData data);
+
+    @POST("board/area")
+    Call<AreaResponse> getAreaData();
+
+    @POST("board/entire")
+    Call<EntireWritingResponse> getEntireWriting();
 }
