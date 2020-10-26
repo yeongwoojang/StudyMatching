@@ -3,13 +3,9 @@ package com.stuty.studymatching.FRAGMENT;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,24 +26,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stuty.studymatching.ACTIVITY.SearchAddress;
 import com.stuty.studymatching.ADAPTER.TypeAdapter;
+import com.stuty.studymatching.OBJECT.User;
 import com.stuty.studymatching.R;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
-import com.stuty.studymatching.RTROFIT.UidData;
-import com.stuty.studymatching.SERVER.WriteToBoard;
+import com.stuty.studymatching.RTROFIT.WriteData;
+import com.stuty.studymatching.SERVER.RequestForBoard;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FirstCreatePage extends Fragment{
+public class WritePage extends Fragment{
 
     private FirebaseAuth mAuth;
+    private User user;
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
-    private FirstPageListener firstPageListener;
+    private WritePageListener writePageListener;
     private ServiceApi service;
     private Context mContext;
 
@@ -69,12 +65,14 @@ public class FirstCreatePage extends Fragment{
         super.onAttach(context);
         Log.d("execute","onAttach");
         mContext = context;
-        firstPageListener = (FirstPageListener) context;
-
+        writePageListener = (WritePageListener) context;
+        if(getArguments()!=null){
+            user = (User)getArguments().getSerializable("currentUserInfo");
+        }
     }
 
-    public FirstCreatePage newInstance(){
-        return new FirstCreatePage();
+    public WritePage newInstance(){
+        return new WritePage();
     }
 
     @Nullable
@@ -119,7 +117,7 @@ public class FirstCreatePage extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
-        WriteToBoard writeToBoard = new WriteToBoard(service);
+        RequestForBoard requestForBoard = new RequestForBoard(service);
 
 
         //키보드 보이기
@@ -220,13 +218,11 @@ public class FirstCreatePage extends Fragment{
                     String currentTime = dateFormat.format(calendar.getTime());
 
                     mAuth = FirebaseAuth.getInstance();
-                    writeToBoard.getUserNumber(new UidData(mAuth.getCurrentUser().getUid()),
-                            currentTime,pCount,pDays,partText.getText().toString(),titleEdt.getText().toString(),contentEdt.getText().toString());
-
-                    //----------------------------------------------------//
+                    requestForBoard.writeToBoard(new WriteData(user.getUserNumber(),currentTime,pCount,pDays,partText.getText().toString()
+                            ,titleEdt.getText().toString(),contentEdt.getText().toString()));
 
                     //MainTabActivity에 게시 버튼이 눌렸음을 알리며 Drawer를 닫아주기를 요청한다.
-                    firstPageListener.postingBtClick();
+                    writePageListener.postingBtClick();
                     //키보드 숨기기
                     InputMethodManager keyBoardManager = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
                     keyBoardManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
@@ -239,7 +235,7 @@ public class FirstCreatePage extends Fragment{
         closeBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                firstPageListener.closeBtClick();
+                writePageListener.closeBtClick();
 
                 //키보드 숨기기
                 InputMethodManager keyBoardManager = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -247,7 +243,7 @@ public class FirstCreatePage extends Fragment{
             }
         });
     }
-    public interface FirstPageListener {
+    public interface WritePageListener {
         void postingBtClick();
         void closeBtClick();
     }

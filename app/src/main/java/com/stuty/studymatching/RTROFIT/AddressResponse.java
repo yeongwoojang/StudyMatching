@@ -2,16 +2,15 @@ package com.stuty.studymatching.RTROFIT;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserNumberResponse {
+public class AddressResponse {
     @SerializedName("code")
     private int code;
 
     @SerializedName("message")
     private String message;
 
-    @SerializedName("userNumber")
-    private String userNumber;
-
+    @SerializedName("jsonArray")
+    private String jsonArray;
 
     public int getCode() {
         return code;
@@ -21,8 +20,7 @@ public class UserNumberResponse {
         return message;
     }
 
-    public String getUserNumber() {
-        return userNumber;
+    public String getJsonArray() {
+        return jsonArray;
     }
-
 }

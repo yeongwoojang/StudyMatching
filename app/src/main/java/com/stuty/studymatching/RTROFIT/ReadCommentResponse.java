@@ -2,7 +2,8 @@ package com.stuty.studymatching.RTROFIT;
 
 import com.google.gson.annotations.SerializedName;
 
-public class InfoResponse {
+public class ReadCommentResponse {
+
     @SerializedName("code")
     private int code;
 

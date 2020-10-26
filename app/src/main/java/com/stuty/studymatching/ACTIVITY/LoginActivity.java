@@ -25,7 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -34,7 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
-import com.stuty.studymatching.SERVER.DatabaseCheck;
+import com.stuty.studymatching.SERVER.RequestForLogin;
 import com.stuty.studymatching.KAKAO.SessionCallback;
 import com.stuty.studymatching.R;
 import com.stuty.studymatching.RTROFIT.CheckData;
@@ -42,10 +41,6 @@ import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
 
 import java.util.Arrays;
-import java.util.HashMap;
-
-import io.reactivex.disposables.Disposable;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements SessionCallback.KakaoLoginListener {
 
@@ -59,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
     private ServiceApi service;
     private Button google_sign_in_button,facebook_sign_in_button,kakao_sign_in_button;
 
-    private DatabaseCheck dbCheck;
+    private RequestForLogin dbCheck;
     private SessionCallback sessionCallback;
     Session session;
     @Override
@@ -72,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
         service = RetrofitClient.getClient().create(ServiceApi.class);
-        dbCheck = new DatabaseCheck(service);
+        dbCheck = new RequestForLogin(service);
 
         sessionCallback = new SessionCallback(dbCheck,service);
 

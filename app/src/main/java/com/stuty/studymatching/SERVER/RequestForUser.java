@@ -2,29 +2,26 @@ package com.stuty.studymatching.SERVER;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.stuty.studymatching.OBJECT.User;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
-import com.stuty.studymatching.RTROFIT.UserData;
+import com.stuty.studymatching.RTROFIT.UidData;
 import com.stuty.studymatching.RTROFIT.UserResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserInDatabase {
+public class RequestForUser {
     private ServiceApi service;
     private GetUserListener listener;
 
-    public UserInDatabase(ServiceApi service) {
+    public RequestForUser(ServiceApi service) {
         this.service = service;
     }
 
-    public void getUser(UserData data) {
+    public void getUser(UidData data) {
         service.getUserInfo(data).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -54,7 +51,7 @@ public class UserInDatabase {
     public interface GetUserListener{
         void getInfo(JSONArray jsonArray) throws JSONException;
     }
-    public void setListener(UserInDatabase.GetUserListener listener){
+    public void setListener(RequestForUser.GetUserListener listener){
         this.listener = listener;
     }
 }

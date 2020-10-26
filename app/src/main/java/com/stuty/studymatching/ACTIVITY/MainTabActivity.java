@@ -1,56 +1,57 @@
 package com.stuty.studymatching.ACTIVITY;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.stuty.studymatching.FRAGMENT.BoardPage_Main;
-import com.stuty.studymatching.FRAGMENT.FirstCreatePage;
+import com.stuty.studymatching.FRAGMENT.WritePage;
 import com.stuty.studymatching.FRAGMENT.MainPage;
-import com.stuty.studymatching.FRAGMENT.SecondCreatePage;
+import com.stuty.studymatching.OBJECT.ReceivedData;
 import com.stuty.studymatching.OBJECT.User;
 import com.stuty.studymatching.R;
+import com.stuty.studymatching.RTROFIT.RecievedUserData;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
-import com.stuty.studymatching.RTROFIT.UserData;
-import com.stuty.studymatching.SERVER.UserInDatabase;
+import com.stuty.studymatching.RTROFIT.UpdateTokenData;
+import com.stuty.studymatching.RTROFIT.UidData;
+import com.stuty.studymatching.SERVER.RequestForFcm;
+import com.stuty.studymatching.SERVER.RequestForUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
-public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, FirstCreatePage.FirstPageListener,
-        BoardPage_Main.BoardPageListener,UserInDatabase.GetUserListener {
+public class MainTabActivity extends AppCompatActivity implements MainPage.LogoutListener, WritePage.WritePageListener,
+        BoardPage_Main.BoardPageListener, RequestForUser.GetUserListener, RequestForFcm.RequestForFcmListener {
+
 
     User currentUser = new User();
-
     private TabLayout tabLayout;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private Button postingBt,text;
     private ImageButton closeBt;
-    FirstCreatePage firstCreatePage;
-    SecondCreatePage secondCreatePage;
+    WritePage writePage;
     private long backKeyPressed = 0;
     private Toast backBtClickToast;
 
@@ -60,7 +61,7 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     private final int FRAGMENT4 = 3;
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
 
-    private UserInDatabase userInDatabase;
+    private RequestForUser requestForUser;
     private FirebaseAuth mAuth;
     private int[] tabIcons = {
             R.drawable.baseline_home_24,
@@ -70,17 +71,46 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     private ServiceApi service;
     private Context mContext;
 
-
+    private JSONArray jsonArray;
+    private boolean isNotiClicked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
-        mContext = this;
 
-        userInDatabase = new UserInDatabase(service);
-        userInDatabase.setListener((UserInDatabase.GetUserListener) mContext);
+        Intent intentFromFcm = getIntent();
+        if(intentFromFcm.getBooleanExtra("fcm",false)){
+            Log.d("getFCM","getFCM");
+            isNotiClicked = true;
+            RequestForFcm forFcm = new RequestForFcm(service);
+            forFcm.setListener((RequestForFcm.RequestForFcmListener)this);
+            forFcm.getRecievedData(new RecievedUserData(intentFromFcm.getIntExtra("recipientNumber",0)));
+        }else{
+            Log.d("getFCM","NoGetFCM");
+            callFragment(FRAGMENT1);
+        }
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        Log.d("TAG",token);
+                        RequestForFcm requestForFcm = new RequestForFcm(service);
+                        requestForFcm.updateDeviceToken(new UpdateTokenData(token,currentUser.getUserNumber()));
+                    }
+                });
+
+
+        mContext = this;
+        requestForUser = new RequestForUser(service);
+        requestForUser.setListener((RequestForUser.GetUserListener) mContext);
 //        getHashKey();
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.slidingView);
@@ -105,11 +135,10 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        userInDatabase.getUser(new UserData(user.getUid()));
-        Log.d("sequence","getUser");
+        requestForUser.getUser(new UidData(user.getUid()));
 
         //메인탭액티비티 최초 진입 시 메인화면 호출
-        callFragment(FRAGMENT1);
+//        callFragment(FRAGMENT1);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -197,7 +226,12 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
             default:
             case FRAGMENT1:
                 // '프래그먼트1' 호출
+                Bundle bundle = new Bundle();
                 MainPage mainPage = new MainPage().newInstance();
+                if(isNotiClicked){
+                    bundle.putString("jsonArray",jsonArray+"");
+                    mainPage.setArguments(bundle);
+                }
                 transaction.replace(R.id.main_container, mainPage);
                 transaction.addToBackStack(null);
                 transaction.commitAllowingStateLoss();
@@ -205,27 +239,26 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
             case FRAGMENT2:
                 // '프래그먼트2' 호출
                 BoardPage_Main boardPage_main = new BoardPage_Main().newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putString("address",currentUser.getAddress());
-                boardPage_main.setArguments(bundle);
+                Bundle boardBundle = new Bundle();
+                boardBundle.putSerializable("currentUserInfo",currentUser);
+                boardPage_main.setArguments(boardBundle);
                 transaction.replace(R.id.main_container, boardPage_main);
                 transaction.addToBackStack(null);
                 transaction.commitAllowingStateLoss();
                 break;
             case FRAGMENT3:
                 // '프래그먼트3' 호출
-                firstCreatePage = new FirstCreatePage().newInstance();
-                transaction.replace(R.id.create_page_container, firstCreatePage);
+                writePage = new WritePage().newInstance();
+                Bundle writeBundle = new Bundle();
+                writeBundle.putSerializable("currentUserInfo",currentUser);
+                writePage.setArguments(writeBundle);
+                transaction.replace(R.id.create_page_container, writePage);
                 transaction.addToBackStack(null);
                 transaction.commitAllowingStateLoss();
 
                 break;
             case FRAGMENT4:
                 // '프래그먼트4' 호출
-                secondCreatePage = new SecondCreatePage().newInstance();
-                transaction.add(R.id.create_page_container, secondCreatePage);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
         }
     }
 
@@ -240,17 +273,16 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
         slidingUpPanelLayout.setPanelHeight(0);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        FirstCreatePage firstCreatePage = new FirstCreatePage().newInstance();
-        transaction.remove(firstCreatePage);
+        WritePage writePage = new WritePage().newInstance();
+        transaction.remove(writePage);
         transaction.commitAllowingStateLoss();
     }
 
     @Override
     public void postingBtClick() {
-        //Drawer를 닫으면서 CreatePage를 초기화면으로 돌려놓는다.
         slidingUpPanelLayout.setPanelHeight(0);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-//        callFragment(FRAGMENT3);
+        callFragment(FRAGMENT2);
     }
 
     @Override
@@ -260,34 +292,26 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     }
 
     @Override
+    public void backBtClick(Fragment fragment) {
+        callFragment(FRAGMENT1);
+    }
+
+
+    @Override
     public void getInfo(JSONArray jsonArray) throws JSONException {
-        Log.d("sequence","getInfo");
         Gson gson = new Gson();
         currentUser = gson.fromJson(jsonArray.get(0).toString(),User.class);
     }
 
 
-    //KeyHash 얻는 코드
-   /* private void getHashKey(){
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (packageInfo == null)
-            Log.e("KeyHash", "KeyHash:null");
+    @Override
+    public void getRecievedData(JSONArray jsonArray) throws JSONException {
+//        Gson gson = new Gson();
+//        for(int i=0;i<jsonArray.length();i++){
+//            receivedDataList.add(gson.fromJson(jsonArray.get(i).toString(),ReceivedData.class));
+//        }
+        this.jsonArray = jsonArray;
+        callFragment(FRAGMENT1);
 
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            } catch (NoSuchAlgorithmException e) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
-    }*/
-
-
+    }
 }

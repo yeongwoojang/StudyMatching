@@ -42,9 +42,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
         </androidx.appcompat.widget.Toolbar>
+        <TextView
+            android:id="@+id/testText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            ></TextView>
     </RelativeLayout>
-
-
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

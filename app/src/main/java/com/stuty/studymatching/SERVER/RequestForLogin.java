@@ -20,12 +20,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DatabaseCheck {
+public class RequestForLogin {
 
     private ServiceApi service;
 
 
-    public DatabaseCheck(ServiceApi service) {
+    public RequestForLogin(ServiceApi service) {
         this.service = service;
     }
 
