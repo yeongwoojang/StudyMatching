@@ -8,8 +8,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +21,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
-import com.stuty.studymatching.OBJECT.ReceivedData;
+import com.stuty.studymatching.ACTIVITY.RequestListActivity;
+import com.stuty.studymatching.OBJECT.RecievedData;
 import com.stuty.studymatching.R;
 
 import org.json.JSONArray;
@@ -38,31 +39,33 @@ public class MainPage extends Fragment {
 
 
     private DrawerLayout mDrawerLayout;
-    private ImageButton menuBt;
+    private ImageButton menuBt,alertBt;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private TextView testText;
-    public MainPage newInstance(){return new MainPage();}
+
+    public MainPage newInstance() {
+        return new MainPage();
+    }
 
     private String sender;
     private JSONArray jsonArray;
-    private List<ReceivedData> receivedDataList = new ArrayList<>();
+    private List<RecievedData> recievedDataList = new ArrayList<>();
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        mContext = context;
         logoutListener = (LogoutListener) context;
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             Gson gson = new Gson();
             try {
                 jsonArray = new JSONArray(getArguments().getString("jsonArray"));
-                Toast.makeText(context,jsonArray+"",Toast.LENGTH_SHORT).show();
-                for(int i=0;i<jsonArray.length();i++){
-                    receivedDataList.add(gson.fromJson(jsonArray.get(i).toString(),ReceivedData.class));
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    recievedDataList.add(gson.fromJson(jsonArray.get(i).toString(), RecievedData.class));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(context,sender,Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -78,10 +81,8 @@ public class MainPage extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_mainpage, container, false);
         mDrawerLayout = rootView.findViewById(R.id.drawer_layout);
         menuBt = rootView.findViewById(R.id.menu_button);
+        alertBt = rootView.findViewById(R.id.alert_image);
         navigationView = rootView.findViewById(R.id.nav_view);
-
-        testText = rootView.findViewById(R.id.testText);
-
         return rootView;
     }
 
@@ -89,9 +90,11 @@ public class MainPage extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(receivedDataList.size()>0){
-//            testText.setText(receivedDataList.get(receivedDataList.size()-1).getSender());
-            testText.setText("sdgsdgsdf");
+
+        for(int i=0;i<recievedDataList.size();i++){
+            if(recievedDataList.get(i).getCheckRequest()==0){
+                alertBt.setVisibility(View.VISIBLE);
+            }
         }
         menuBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +113,10 @@ public class MainPage extends Fragment {
 
                 if (id == R.id.setting) {
 
+                } else if (id ==R.id.request_list) {
+                    Intent intent = new Intent(mContext, RequestListActivity.class);
+                    intent.putExtra("jsonArray",jsonArray.toString());
+                    startActivity(intent);
                 } else if (id == R.id.logout) {
                     FirebaseAuth.getInstance().signOut();
                     logoutListener.successLogout();
@@ -131,7 +138,7 @@ public class MainPage extends Fragment {
     }
 
 
-    public interface LogoutListener{
+    public interface LogoutListener {
         void successLogout();
     }
 

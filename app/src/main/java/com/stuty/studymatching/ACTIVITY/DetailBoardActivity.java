@@ -99,8 +99,11 @@ public class DetailBoardActivity extends AppCompatActivity implements RequestFor
                 String sender = intent.getStringExtra("sender");
                 int writingNumber = intent.getIntExtra("writingNumber",0);
                 Writing receivedUserInfo = (Writing)intent.getSerializableExtra("recipient");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+                Calendar calendar = Calendar.getInstance();
+                String requestTime = format.format(calendar.getTime());
                 RequestForFcm requestForFcm = new RequestForFcm(service);
-                requestForFcm.sendData(new SendData(receivedUserInfo,senderNumber,sender));
+                requestForFcm.sendData(new SendData(receivedUserInfo,senderNumber,sender,requestTime));
                 requestForFcm.sendFCM(new FcmData(FcmRecipientNumber,writingNumber));
             }
         });

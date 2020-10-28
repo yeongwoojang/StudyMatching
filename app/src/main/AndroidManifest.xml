@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ACTIVITY.DetailBoardActivity"></activity>
+        <activity android:name=".ACTIVITY.RequestListActivity"></activity>
+        <activity android:name=".ACTIVITY.DetailBoardActivity" />
         <activity android:name=".ACTIVITY.SearchAddress" />
         <activity
             android:name=".ACTIVITY.MainTabActivity"

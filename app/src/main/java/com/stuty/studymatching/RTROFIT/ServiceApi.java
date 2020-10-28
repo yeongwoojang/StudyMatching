@@ -59,7 +59,9 @@ public interface ServiceApi {
     @POST("/fcm/recievedData")
     Call<ReceivedDataResponse> getRecievedData (@Body RecievedUserData data);
 
-    @POST("fcm/sendData")
+    @POST("/fcm/sendData")
     Call<SendResponse> sendData(@Body SendData data);
 
+    @POST("/fcm/updateCheck")
+    Call<UpdateCheckReqResponse> updateCheckReq (@Body RecievedNumberData data);
 }

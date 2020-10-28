@@ -2,69 +2,65 @@ package com.stuty.studymatching.OBJECT;
 
 import java.io.Serializable;
 
-public class ReceivedData implements Serializable {
+public class RecievedData implements Serializable {
 
     private int recievedNumber;
     private String recievedUser;
     private int recievedUserNumber;
     private int writingNumber;
+    private String writingTitle;
     private int senderNumber;
     private String sender;
+    private String requestTime;
+    private int checkRequest;
 
-    public ReceivedData(int recievedNumber, String recievedUser, int recievedUserNumber, int writingNumber, int senderNumber, String sender) {
+    public RecievedData(int recievedNumber, String recievedUser,
+                        int recievedUserNumber, int writingNumber, String writingTitle,
+                        int senderNumber, String sender, String requestTime, int checkRequest) {
         this.recievedNumber = recievedNumber;
         this.recievedUser = recievedUser;
         this.recievedUserNumber = recievedUserNumber;
         this.writingNumber = writingNumber;
+        this.writingTitle = writingTitle;
         this.senderNumber = senderNumber;
         this.sender = sender;
+        this.requestTime = requestTime;
+        this.checkRequest = checkRequest;
     }
 
     public int getRecievedNumber() {
         return recievedNumber;
     }
 
-    public void setRecievedNumber(int recievedNumber) {
-        this.recievedNumber = recievedNumber;
-    }
-
     public String getRecievedUser() {
         return recievedUser;
-    }
-
-    public void setRecievedUser(String recievedUser) {
-        this.recievedUser = recievedUser;
     }
 
     public int getRecievedUserNumber() {
         return recievedUserNumber;
     }
 
-    public void setRecievedUserNumber(int recievedUserNumber) {
-        this.recievedUserNumber = recievedUserNumber;
-    }
-
     public int getWritingNumber() {
         return writingNumber;
     }
 
-    public void setWritingNumber(int writingNumber) {
-        this.writingNumber = writingNumber;
+    public String getWritingTitle() {
+        return writingTitle;
     }
 
     public int getSenderNumber() {
         return senderNumber;
     }
 
-    public void setSenderNumber(int senderNumber) {
-        this.senderNumber = senderNumber;
-    }
-
     public String getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public String getRequestTime() {
+        return requestTime;
+    }
+
+    public int getCheckRequest() {
+        return checkRequest;
     }
 }

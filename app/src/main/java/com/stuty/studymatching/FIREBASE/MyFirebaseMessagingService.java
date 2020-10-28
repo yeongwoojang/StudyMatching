@@ -19,17 +19,8 @@ import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
 import com.stuty.studymatching.ACTIVITY.MainTabActivity;
-import com.stuty.studymatching.OBJECT.ReceivedData;
 import com.stuty.studymatching.R;
-import com.stuty.studymatching.RTROFIT.RecievedUserData;
-import com.stuty.studymatching.RTROFIT.RetrofitClient;
-import com.stuty.studymatching.RTROFIT.ServiceApi;
-import com.stuty.studymatching.SERVER.RequestForFcm;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

@@ -6,10 +6,12 @@ import android.widget.Toast;
 import com.stuty.studymatching.RTROFIT.FcmData;
 import com.stuty.studymatching.RTROFIT.FcmResponse;
 import com.stuty.studymatching.RTROFIT.ReceivedDataResponse;
+import com.stuty.studymatching.RTROFIT.RecievedNumberData;
 import com.stuty.studymatching.RTROFIT.RecievedUserData;
 import com.stuty.studymatching.RTROFIT.SendData;
 import com.stuty.studymatching.RTROFIT.SendResponse;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
+import com.stuty.studymatching.RTROFIT.UpdateCheckReqResponse;
 import com.stuty.studymatching.RTROFIT.UpdateTokenData;
 import com.stuty.studymatching.RTROFIT.UpdateTokenResponse;
 
@@ -101,6 +103,24 @@ public class RequestForFcm {
 
             }
         });
+    }
+
+    public void updateCheckReq(RecievedNumberData data){
+        service.updateCheckReq(data).enqueue(new Callback<UpdateCheckReqResponse>() {
+            @Override
+            public void onResponse(Call<UpdateCheckReqResponse> call, Response<UpdateCheckReqResponse> response) {
+                UpdateCheckReqResponse result = response.body();
+                if(result.getCode()==200){
+                    Log.d("UpdateCheck","요청확인체크 변경");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateCheckReqResponse> call, Throwable t) {
+
+            }
+        });
+
     }
     public interface RequestForFcmListener{
         void getRecievedData(JSONArray jsonArray) throws JSONException;

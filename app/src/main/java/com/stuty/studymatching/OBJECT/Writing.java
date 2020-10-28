@@ -13,7 +13,6 @@ public class Writing implements Serializable {
     private String title;
     private String content;
 
-
     public Writing(String userName, int userNumber, int writingNumber, String writingTime, String recruitMember, String recruitPeriod, String part, String title, String content) {
         this.userName = userName;
         this.userNumber = userNumber;
