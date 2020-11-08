@@ -10,3 +10,4 @@ public class AddressData {
         this.address = address;
     }
 }
+
