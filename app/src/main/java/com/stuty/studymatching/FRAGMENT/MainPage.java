@@ -136,7 +136,6 @@ public class MainPage extends Fragment {
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
