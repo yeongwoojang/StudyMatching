@@ -4,7 +4,56 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/amber100</item>
         <item name="colorPrimaryDark">@color/gray600</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/black</item>
     </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <style name="MySpinnerStyle" parent="Theme.AppCompat.Light.Dialog">-->
+<!--        <item name="android:textColorPrimary">@color/black</item>-->
+<!--        <item name="android:background">@color/amber200</item>-->
+<!--        <item name="android:fontFamily">@font/bm_jua_ttf</item>-->
+<!--    </style>-->
+
+    <style name="MyDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/amber300</item>
+        <!--selected Item color-->
+        <item name="colorControlActivated">@color/gray50</item>
+        <!-- arrow bordercolor(<>)-->
+        <item name="android:selectableItemBackgroundBorderless">@color/transparent</item>
+        <!-- Highlight item color-->
+        <item name="colorControlHighlight">@color/gray50</item>
+        <!--Calender Background color -->
+        <item name="android:windowBackground">@color/amber300</item>
+        <!-- Ok Cancel Color-->
+        <item name="android:textColor">@color/blue600</item>
+        <item name="android:fontFamily">@font/bm_jua_ttf</item>
+        <!-- Week TextColor-->
+        <item name="android:textColorSecondary">@color/black</item>
+        <!-- Calender Number color arrow color (< >) -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!--day , month-->
+        <item name="android:textColorPrimaryInverse">@color/black</item>
+        <!-- year-->
+        <item name="android:textColorSecondaryInverse">@color/orage500</item>
+    </style>
+
+
 
 </resources>

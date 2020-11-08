@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/form_dialog">
+
+    <TextView
+        android:id="@+id/dialog_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/bm_jua_ttf"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="모집 조건"
+        android:textColor="@color/black"
+        android:background="@drawable/form_top_round"
+        android:textSize="25dp"></TextView>
+
+    <LinearLayout
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/dialog_title_text"
+        android:background="@color/gray500"
+        android:orientation="horizontal"
+        ></LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/radio_group_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/bm_jua_ttf"
+                android:gravity="center"
+                android:text="인원"
+                android:textColor="@color/black"></TextView>
+
+            <RadioGroup
+                android:id="@+id/radio_group1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/no_relation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="무관"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="3명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="4명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="5명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="6명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/seven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="7명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/eight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="8명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/nine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="9명"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/ten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="10명"></RadioButton>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray500"
+            android:orientation="vertical"
+            ></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/bm_jua_ttf"
+                android:gravity="center"
+                android:text="모집기간"
+                android:textColor="@color/black"></TextView>
+
+            <RadioGroup
+                android:id="@+id/radio_group2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/three_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="3일"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/seven_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="7일"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/ten_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="10일"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/fourteen_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bm_jua_ttf"
+                    android:text="14일"></RadioButton>
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:background="@color/gray500"
+        android:layout_below="@+id/radio_group_layout"
+        >
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/divider2"
+        >
+        <Button
+            android:id="@+id/cancle_bt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/bm_jua_ttf"
+            android:text="취소"
+            android:textColor="@color/red300"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:textSize="20dp"></Button>
+        <LinearLayout
+            android:id="@+id/divider3"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/gray500"
+            android:layout_below="@+id/radio_group_layout"
+            >
+        </LinearLayout>
+        <Button
+            android:id="@+id/ok_bt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/bm_jua_ttf"
+            android:text="확인"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:textSize="20dp"></Button>
+    </LinearLayout>
+</RelativeLayout>

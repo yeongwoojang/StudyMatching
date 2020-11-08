@@ -1,7 +1,6 @@
 package com.stuty.studymatching.KAKAO;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,23 +24,19 @@ import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 import com.stuty.studymatching.RTROFIT.FirebaseJwt;
-import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
-import com.stuty.studymatching.SERVER.DatabaseCheck;
+import com.stuty.studymatching.SERVER.RequestForLogin;
 import com.stuty.studymatching.RTROFIT.CheckData;
 
 import java.io.IOException;
 
-import io.reactivex.disposables.Disposable;
-import retrofit2.Retrofit;
-
 public class SessionCallback implements ISessionCallback {
-    DatabaseCheck dbCheck;
+    RequestForLogin dbCheck;
     private ServiceApi service;
     private FirebaseAuth mAuth;
     KakaoLoginListener listener;
 
-    public SessionCallback(DatabaseCheck dbCheck, ServiceApi service) {
+    public SessionCallback(RequestForLogin dbCheck, ServiceApi service) {
         this.service = service;
         this.dbCheck = dbCheck;
     }

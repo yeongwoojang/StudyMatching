@@ -104,7 +104,7 @@
                 android:layout_alignParentBottom="true"
                 android:text="@string/signin_kakao"
                 android:background="@drawable/btn_signin_kakao"
-                android:textColor="@color/white">
+                android:textColor="@color/black">
             </Button>
         </LinearLayout>
     </RelativeLayout>

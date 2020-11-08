@@ -20,12 +20,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DatabaseCheck {
+public class RequestForLogin {
 
     private ServiceApi service;
 
 
-    public DatabaseCheck(ServiceApi service) {
+    public RequestForLogin(ServiceApi service) {
         this.service = service;
     }
 
@@ -64,7 +64,9 @@ public class DatabaseCheck {
                 Log.e("체크 에러 발생", t.getMessage());
             }
         });
-    }
+}
+
+
 
     public Task<String> getFirebaseJwt(FirebaseJwt data) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
