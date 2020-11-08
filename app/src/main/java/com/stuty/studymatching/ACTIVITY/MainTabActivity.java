@@ -61,8 +61,8 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
     private FirebaseAuth mAuth;
     private int[] tabIcons = {
             R.drawable.baseline_home_24,
-            R.drawable.baseline_search_24,
-            R.drawable.baseline_create_24
+            R.drawable.baseline_search_24_black,
+            R.drawable.ic_baseline_person_24_black
     };
     private ServiceApi service = RetrofitClient.getClient().create(ServiceApi.class);
     private Context mContext;
@@ -146,14 +146,25 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
                     case FRAGMENT1:
                         // '버튼1' 클릭 시 '프래그먼트1' 호출
                         callFragment(FRAGMENT1);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24_black);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.ic_baseline_person_24_black);
                         break;
 
                     case FRAGMENT2:
                         // '버튼2' 클릭 시 '프래그먼트2' 호출
                         callFragment(FRAGMENT2);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24_black);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.ic_baseline_person_24_black);
+
                         break;
                     case FRAGMENT3:
                         callFragment(FRAGMENT3);
+                        tabLayout.getTabAt(FRAGMENT1).setIcon(R.drawable.baseline_home_24_black);
+                        tabLayout.getTabAt(FRAGMENT2).setIcon(R.drawable.baseline_search_24_black);
+                        tabLayout.getTabAt(FRAGMENT3).setIcon(R.drawable.ic_baseline_person_24);
+                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                         break;
                 }

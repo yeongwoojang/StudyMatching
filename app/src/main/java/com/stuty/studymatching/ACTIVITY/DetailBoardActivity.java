@@ -113,7 +113,7 @@ public class DetailBoardActivity extends AppCompatActivity implements RequestFor
             public void onClick(View v) {
 
                 Intent intent = getIntent();
-                int userNumber = intent.getIntExtra("userNumber",0);
+                int userNumber = intent.getIntExtra("senderNumber",0);
                 Log.d("userNumber3",userNumber+"");
                 FirebaseAuth mAuth;
                 mAuth = FirebaseAuth.getInstance();
