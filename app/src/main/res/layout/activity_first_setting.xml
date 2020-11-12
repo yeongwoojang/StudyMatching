@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstSettingActivity"
+    tools:context=".ACTIVITY.FirstSettingActivity"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -23,7 +23,88 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/fix_setting"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="저장"
+            android:textSize="20dp"
+            android:fontFamily="@font/bm_dohyeon_ttf"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            />
     </androidx.appcompat.widget.Toolbar>
-    <
-
+    <ImageButton
+        android:id="@+id/set_image"
+        android:layout_marginTop="13dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_tag_faces_24"
+        android:background="@drawable/baseline_buttoradius"
+        />
+    <TextView
+        android:id="@+id/email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="e-mail"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="닉네임"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"
+        />
+    <EditText
+        android:id="@+id/set_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"
+        android:maxLength="15"
+        android:inputType="text"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="성별"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"
+        />
+    <Spinner
+        android:id="@+id/set_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"
+        android:entries="@array/gender"
+        />
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 지역 설정"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"
+        />
+    <Button
+        android:id="@+id/set_myArea"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/transparent"/>
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray500"
+        android:textSize="20dp"
+        android:fontFamily="@font/bm_dohyeon_ttf"/>
 </LinearLayout>

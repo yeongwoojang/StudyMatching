@@ -3,6 +3,8 @@ package com.stuty.studymatching.RTROFIT;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 //Retrofit2를 이용하여 서버에 요청할 메소드를 선언해놓은 모아놓은 인터페이스
@@ -32,7 +34,7 @@ public interface ServiceApi {
     @POST("/write/comment")
     Call<WriteCommentResponse> writeComment(@Body CommentData data);
 
-    //    현재 유저의 uid를 서버에 넘겨 그에 맞는 유저 정보를 요청하는 것
+    //현재 유저의 uid를 서버에 넘겨 그에 맞는 유저 정보를 요청하는 것
     @POST("/user/info")
     Call<UserResponse> getUserInfo (@Body UidData data);
 
@@ -64,4 +66,9 @@ public interface ServiceApi {
 
     @POST("/fcm/updateCheck")
     Call<UpdateCheckReqResponse> updateCheckReq (@Body RecievedNumberData data);
+
+    //유저의 주소를 db에 보내는 곳
+    @FormUrlEncoded
+    @POST("/update/address")
+    Call<UpdateTokenResponse> updateAddress (@Field("address") String address,@Field("nickname") String nickname,@Field("gender") String gender,@Field("uid") String uid);
 }

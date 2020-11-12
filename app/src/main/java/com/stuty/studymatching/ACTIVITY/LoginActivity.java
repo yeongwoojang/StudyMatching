@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
         kakao_sign_in_button = (Button)findViewById(R.id.kakao_sign_in_button);
 
         if (mAuth.getCurrentUser() != null) {
-            Intent toMainPageIntent = new Intent(getApplicationContext(), MainTabActivity.class);
+            Intent toMainPageIntent = new Intent(getApplicationContext(), FirstSettingActivity.class);
             startActivity(toMainPageIntent);
         }
 
@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             dbCheck.startCheck(new CheckData("google",user.getUid()),"google",user.getUid(),user.getDisplayName());
-                            Intent toMainPageIntent = new Intent(getApplicationContext(), MainTabActivity.class);
+                            Intent toMainPageIntent = new Intent(getApplicationContext(), FirstSettingActivity.class);
                             startActivity(toMainPageIntent);
 
                         } else {
@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
                             dbCheck.startCheck(new CheckData("facebook",user.getUid()),"facebook",user.getUid(),user.getDisplayName());
-                            Intent toMainPageIntent = new Intent(getApplicationContext(),MainTabActivity.class);
+                            Intent toMainPageIntent = new Intent(getApplicationContext(),FirstSettingActivity.class);
                             startActivity(toMainPageIntent);
                         }else {
                             Toast.makeText(getApplicationContext(),"페북 로그인 실패",Toast.LENGTH_SHORT).show();
@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements SessionCallback.
 
     @Override
     public void success() {
-        Intent intent = new Intent(getApplicationContext(),MainTabActivity.class);
+        Intent intent = new Intent(getApplicationContext(),FirstSettingActivity.class);
         startActivity(intent);
     }
 

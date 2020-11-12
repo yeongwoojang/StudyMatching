@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.stuty.studymatching.RTROFIT.AddressData;
 import com.stuty.studymatching.RTROFIT.CheckData;
 import com.stuty.studymatching.RTROFIT.CheckResponse;
 import com.stuty.studymatching.RTROFIT.FirebaseJwt;
@@ -15,6 +16,7 @@ import com.stuty.studymatching.RTROFIT.JoinResponse;
 import com.stuty.studymatching.RTROFIT.JwtResponse;
 import com.stuty.studymatching.RTROFIT.RetrofitClient;
 import com.stuty.studymatching.RTROFIT.ServiceApi;
+import com.stuty.studymatching.RTROFIT.UpdateTokenResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +25,6 @@ import retrofit2.Response;
 public class RequestForLogin {
 
     private ServiceApi service;
-
 
     public RequestForLogin(ServiceApi service) {
         this.service = service;
@@ -46,6 +47,20 @@ public class RequestForLogin {
         });
     }
 
+    public void updateAddress(String address,String nickname,String gender,String uid){
+        service.updateAddress(address,nickname,gender,uid).enqueue(new Callback<UpdateTokenResponse>() {
+            @Override
+            public void onResponse(Call<UpdateTokenResponse> call, Response<UpdateTokenResponse> response) {
+            UpdateTokenResponse result = response.body();
+            Log.d("result",result.getCode()+"");
+            }
+
+            @Override
+            public void onFailure(Call<UpdateTokenResponse> call, Throwable t) {
+                Log.e("주소 수정 에러", t.getMessage());
+            }
+        });
+    }
 
      public void startCheck(CheckData data,final String signInMethod, final String userUid, final String userName) {
         service.userCheck(data).enqueue(new Callback<CheckResponse>() {
@@ -65,7 +80,6 @@ public class RequestForLogin {
             }
         });
 }
-
 
 
     public Task<String> getFirebaseJwt(FirebaseJwt data) {

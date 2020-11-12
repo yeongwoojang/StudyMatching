@@ -91,9 +91,6 @@ public class MainPage extends Fragment {
             }
         }
 
-        editText1.setText(user.getDisplayName());
-        editText2.setText(user.getEmail());
-        profileIV.setImageURI(user.getPhotoUrl());
 
         return rootView;
     }

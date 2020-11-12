@@ -134,8 +134,6 @@ public class MainTabActivity extends AppCompatActivity implements MainPage.Logou
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        requestForUser.getUser(new UidData(user.getUid()));
-
         //메인탭액티비티 최초 진입 시 메인화면 호출
 //        callFragment(FRAGMENT1);
 

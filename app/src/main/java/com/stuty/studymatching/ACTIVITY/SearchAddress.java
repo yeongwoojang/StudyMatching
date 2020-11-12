@@ -39,7 +39,7 @@ public class SearchAddress extends AppCompatActivity {
             Intent intent = new Intent();
             extra.putString("data", data);
             intent.putExtras(extra);
-            setResult(RESULT_OK, intent);
+            setResult(RESULT_OK, intent); //OK
             finish();
         }
     }

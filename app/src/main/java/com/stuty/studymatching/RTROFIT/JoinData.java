@@ -13,7 +13,6 @@ public class JoinData {
     @SerializedName("userName")
     private String userName;
 
-
     public JoinData(String signInMethod, String uid, String userName) {
         this.signInMethod = signInMethod;
         this.uid = uid;
